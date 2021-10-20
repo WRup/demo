@@ -29,7 +29,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Controller used to manage blog contents in the public part of the site.
  *
- * @Route("/blog")
  *
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
