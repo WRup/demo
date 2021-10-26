@@ -55,7 +55,14 @@
                 <source>title.comment_error</source>
                 <target>Podczas publikacji Twojego komentarza wystąpił błąd</target>
             </trans-unit>
-
+            <trans-unit id="title.edit_user">
+                <source>title.edit_user</source>
+                <target>Zarządzenie kontem</target>
+            </trans-unit>
+            <trans-unit id="title.change_password">
+                <source>title.change_password</source>
+                <target>Zmiana hasła</target>
+            </trans-unit>
             <trans-unit id="action.show">
                 <source>action.show</source>
                 <target>Pokaż</target>
@@ -128,7 +135,14 @@
                 <source>action.browse_admin</source>
                 <target>Przeglądaj panel administracyjny</target>
             </trans-unit>
-
+            <trans-unit id="action.edit_user">
+                <source>action.edit_user</source>
+                <target>Zarządzanie kontem</target>
+            </trans-unit>
+            <trans-unit id="action.change_password">
+                <source>action.change_password</source>
+                <target>Zmiana hasła</target>
+            </trans-unit>
             <trans-unit id="label.title">
                 <source>label.title</source>
                 <target>Tytuł</target>
@@ -152,6 +166,18 @@
             <trans-unit id="label.password">
                 <source>label.password</source>
                 <target>Hasło</target>
+            </trans-unit>
+            <trans-unit id="label.current_password">
+                <source>label.current_password</source>
+                <target>Obecne hasło</target>
+            </trans-unit>
+            <trans-unit id="label.new_password">
+                <source>label.new_password</source>
+                <target>Nowe hasło</target>
+            </trans-unit>
+            <trans-unit id="label.new_password_confirm">
+                <source>label.new_password_confirm</source>
+                <target>Potwierdź nowe hasło</target>
             </trans-unit>
             <trans-unit id="label.role">
                 <source>label.role</source>
@@ -202,6 +228,14 @@
                 <source>menu.admin</source>
                 <target>Panel administracyjny</target>
             </trans-unit>
+            <trans-unit id="menu.search">
+                <source>menu.search</source>
+                <target>Szukaj</target>
+            </trans-unit>
+            <trans-unit id="menu.user">
+                <source>menu.user</source>
+                <target>Zarządzaj kontem</target>
+            </trans-unit>
             <trans-unit id="menu.logout">
                 <source>menu.logout</source>
                 <target>Wyloguj się</target>
@@ -238,6 +272,19 @@
             <trans-unit id="post.deleted_successfully">
                 <source>post.deleted_successfully</source>
                 <target>Artykuł został usunięty!</target>
+            </trans-unit>
+            <trans-unit id="post.search_for">
+                <source>post.search_for</source>
+                <target>Szukaj...</target>
+            </trans-unit>
+            <trans-unit id="post.search_no_results">
+                <source>post.search_no_results</source>
+                <target>Brak wyników wyszukiwania</target>
+            </trans-unit>
+
+            <trans-unit id="user.updated_successfully">
+                <source>user.updated_successfully</source>
+                <target>Użytkownik został zaktualizowany!</target>
             </trans-unit>
             <trans-unit id="help.app_description">
                 <source>help.app_description</source>
@@ -278,6 +325,11 @@
             <trans-unit id="help.more_information">
                 <source>help.more_information</source>
                 <target><![CDATA[Sprawdź <a href="https://symfony.com/doc">dokumentację Symfony</a>, aby uzyskać więcej informacji.]]></target>
+            </trans-unit>
+
+            <trans-unit id="info.change_password">
+                <source>info.change_password</source>
+                <target>Po zmianie hasła nastąpi wylogowanie z sytemu.</target>
             </trans-unit>
 
             <trans-unit id="paginator.previous">
