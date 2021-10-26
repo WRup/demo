@@ -53,6 +53,28 @@ class AccessoryRepository extends ServiceEntityRepository
         return (new Paginator($qb))->paginate($page);
     }
 
+    public function findAll(int $page = 1): Paginator
+    {
+
+        $qb = $this->createQueryBuilder('a')
+            ->addSelect('u')
+            ->innerJoin('a.users', 'u')
+//            ->leftJoin('a.tags', 't')
+//            ->where('p.publishedAt <= :now')
+//            ->orderBy('a.name', 'ASC')
+//            ->setParameter('now', new \DateTime())
+        ;
+
+//        if (null !== $tag) {
+//            $qb->andWhere(':tag MEMBER OF a.tags')
+//                ->setParameter('tag', $tag);
+//        }
+
+        $this->logger->info($qb->getQuery()->getDQL());
+
+        return (new Paginator($qb))->paginate($page);
+    }
+
     /**
      * @return Accessory[]
      */

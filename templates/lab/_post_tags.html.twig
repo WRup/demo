@@ -1,5 +1,5 @@
 {% if not accessory.tags.empty %}
-    <p class="accessory-tags">
+    <p class="post-tags">
         {% for tag in accessory.tags %}
             <a href="{{ path('lab_index', {'tag': tag.name == app.request.query.get('tag') ? null : tag.name}) }}"
                class="label label-{{ tag.name == app.request.query.get('tag') ? 'success' : 'default' }}"

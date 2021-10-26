@@ -4,9 +4,9 @@
 
 {% block main %}
     {% for accessory in paginator.results %}
-        <article class="accessory">
+        <article class="post">
             <img class ="accessory_img" src="../../public/build/images/F304846~p.eps-650.png" alt="Missing image. Source url:{{ accessory.image }}"/>
-            <div class="content">
+            <div class="post">
                 <h2>
                     <a href="{{ accessory.url }}">
                         {{ accessory.name }}

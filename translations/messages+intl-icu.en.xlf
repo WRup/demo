@@ -192,7 +192,7 @@
 
             <trans-unit id="label.title">
                 <source>label.title</source>
-                <target>Title</target>
+                <target>Name</target>
             </trans-unit>
             <trans-unit id="label.author">
                 <source>label.author</source>
@@ -245,6 +245,10 @@
             <trans-unit id="label.published_at">
                 <source>label.published_at</source>
                 <target>Published at</target>
+            </trans-unit>
+            <trans-unit id="label.quantity">
+                <source>label.quantity</source>
+                <target>Availability</target>
             </trans-unit>
             <trans-unit id="label.tags">
                 <source>label.tags</source>

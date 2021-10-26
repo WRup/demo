@@ -145,7 +145,7 @@
             </trans-unit>
             <trans-unit id="label.title">
                 <source>label.title</source>
-                <target>Tytuł</target>
+                <target>Nazwa</target>
             </trans-unit>
             <trans-unit id="action.close">
                 <source>action.close</source>
@@ -195,6 +195,10 @@
                 <source>label.published_at</source>
                 <target>Opublikowano</target>
             </trans-unit>
+            <trans-unit id="label.quantity">
+                <source>label.quantity</source>
+                <target>Dostępność</target>
+            </trans-unit>
             <trans-unit id="label.actions">
                 <source>label.actions</source>
                 <target>Akcje</target>
@@ -211,6 +215,10 @@
             <trans-unit id="menu.toggle_nav">
                 <source>menu.toggle_nav</source>
                 <target>Przełącz nawigację</target>
+            </trans-unit>
+            <trans-unit id="menu.choose_language">
+                <source>menu.choose_language</source>
+                <target>Wybór języka</target>
             </trans-unit>
             <trans-unit id="menu.post_list">
                 <source>menu.post_list</source>
