@@ -45,7 +45,7 @@
             </trans-unit>
             <trans-unit id="title.edit_post">
                 <source>title.edit_post</source>
-                <target>Edytuj artykuł #{id, number}</target>
+                <target>Edytuj przyrząd #{id, number}</target>
             </trans-unit>
             <trans-unit id="title.add_comment">
                 <source>title.add_comment</source>
@@ -143,6 +143,18 @@
                 <source>action.change_password</source>
                 <target>Zmiana hasła</target>
             </trans-unit>
+            <trans-unit id="label.name">
+                <source>label.name</source>
+                <target>Nazwa przyrządu</target>
+            </trans-unit>
+            <trans-unit id="label.manufacturer">
+                <source>label.manufacturer</source>
+                <target>Oznaczenie producenta</target>
+            </trans-unit>
+            <trans-unit id="label.url">
+                <source>label.url</source>
+                <target>URL do strony producenta</target>
+            </trans-unit>
             <trans-unit id="label.title">
                 <source>label.title</source>
                 <target>Nazwa</target>
@@ -185,7 +197,7 @@
             </trans-unit>
             <trans-unit id="label.content">
                 <source>label.content</source>
-                <target>Treść</target>
+                <target>Opis tekstowy</target>
             </trans-unit>
             <trans-unit id="label.summary">
                 <source>label.summary</source>
@@ -197,7 +209,11 @@
             </trans-unit>
             <trans-unit id="label.quantity">
                 <source>label.quantity</source>
-                <target>Dostępność</target>
+                <target>Liczba sztuk na wyposarzeniu</target>
+            </trans-unit>
+            <trans-unit id="label.tags">
+                <source>label.tags</source>
+                <target>Tagi</target>
             </trans-unit>
             <trans-unit id="label.actions">
                 <source>label.actions</source>
@@ -293,6 +309,10 @@
             <trans-unit id="user.updated_successfully">
                 <source>user.updated_successfully</source>
                 <target>Użytkownik został zaktualizowany!</target>
+            </trans-unit>
+            <trans-unit id="help.quantity">
+                <source>help.quantity</source>
+                <target>Ilość sztuk wyporzyczonych przez studentów: {amountOfLoans, number}</target>
             </trans-unit>
             <trans-unit id="help.app_description">
                 <source>help.app_description</source>

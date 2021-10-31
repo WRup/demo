@@ -82,7 +82,7 @@
             </trans-unit>
             <trans-unit id="title.edit_post">
                 <source>title.edit_post</source>
-                <target>Edit post #{id, number}</target>
+                <target>Edit accessory #{id, number}</target>
             </trans-unit>
             <trans-unit id="title.add_comment">
                 <source>title.add_comment</source>
@@ -189,7 +189,22 @@
                 <source>action.close</source>
                 <target>Close</target>
             </trans-unit>
-
+            <trans-unit id="label.name">
+                <source>label.name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="label.model">
+                <source>label.model</source>
+                <target>Model</target>
+            </trans-unit>
+            <trans-unit id="label.manufacturer">
+                <source>label.manufacturer</source>
+                <target>Manufacturer</target>
+            </trans-unit>
+            <trans-unit id="label.url">
+                <source>label.url</source>
+                <target>URL</target>
+            </trans-unit>
             <trans-unit id="label.title">
                 <source>label.title</source>
                 <target>Name</target>
@@ -410,6 +425,10 @@
             <trans-unit id="help.post_publication">
                 <source>help.post_publication</source>
                 <target>Set the date in the future to schedule the blog post publication.</target>
+            </trans-unit>
+            <trans-unit id="help.quantity">
+                <source>help.quantity</source>
+                <target>Amount of accessories loaned by students:</target>
             </trans-unit>
             <trans-unit id="help.post_content">
                 <source>help.post_content</source>

@@ -11,6 +11,7 @@
 
 namespace App\Security;
 
+use App\Entity\Accessory;
 use App\Entity\Post;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -38,7 +39,7 @@ class PostVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         // this voter is only executed for three specific permissions on Post objects
-        return $subject instanceof Post && \in_array($attribute, [self::SHOW, self::EDIT, self::DELETE], true);
+        return ($subject instanceof Post || $subject instanceof Accessory) && \in_array($attribute, [self::SHOW, self::EDIT, self::DELETE], true);
     }
 
     /**

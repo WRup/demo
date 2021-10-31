@@ -74,6 +74,34 @@ class AccessoryRepository extends ServiceEntityRepository
 
         return (new Paginator($qb))->paginate($page);
     }
+    /**
+     * @return integer
+     */
+    public function findLoanedAccessoriesById(int $id): int
+    {
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->from("App:Accessory", "a")
+            ->andWhere("a.id = :id")
+            ->setParameter('id', $id)
+            ->addSelect('COUNT(u)')
+            ->innerJoin('a.users', 'u')
+//            ->leftJoin('a.tags', 't')
+//            ->where('p.publishedAt <= :now')
+//            ->orderBy('a.name', 'ASC')
+//            ->setParameter('now', new \DateTime())
+        ;
+
+//        if (null !== $tag) {
+//            $qb->andWhere(':tag MEMBER OF a.tags')
+//                ->setParameter('tag', $tag);
+//        }
+//        var_dump($qb->getQuery()->getResult());
+        return $qb->getQuery()->getSingleScalarResult();
+//        $this->logger->info($qb->getQuery()->getDQL());
+
+//        return (new Paginator($qb))->paginate($page);
+    }
 
     /**
      * @return Accessory[]

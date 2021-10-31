@@ -2,15 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Post;
-use App\Form\PostType;
+use App\Entity\Accessory;
+use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
-use App\Repository\PostRepository;
-use App\Security\PostVoter;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -102,41 +100,42 @@ class AccessoryController extends AbstractController
 //     *
 //     * @Route("/{id<\d+>}", methods="GET", name="admin_post_show")
 //     */
-//    public function show(Post $post): Response
+//    public function show(Accessory $accessory): Response
 //    {
 //        // This security check can also be performed
 //        // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
-//        $this->denyAccessUnlessGranted(PostVoter::SHOW, $post, 'Posts can only be shown to their authors.');
+//        $this->denyAccessUnlessGranted(PostVoter::SHOW, $accessory, 'Posts can only be shown to their authors.');
 //
 //        return $this->render('admin/blog/show.html.twig', [
-//            'post' => $post,
+//            'post' => $accessory,
 //        ]);
 //    }
 //
-//    /**
-//     * Displays a form to edit an existing Post entity.
-//     *
-//     * @Route("/{id<\d+>}/edit", methods="GET|POST", name="admin_post_edit")
-//     * @IsGranted("edit", subject="post", message="Posts can only be edited by their authors.")
-//     */
-//    public function edit(Request $request, Post $post): Response
-//    {
-//        $form = $this->createForm(PostType::class, $post);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $this->getDoctrine()->getManager()->flush();
-//
-//            $this->addFlash('success', 'post.updated_successfully');
-//
-//            return $this->redirectToRoute('admin_post_edit', ['id' => $post->getId()]);
-//        }
-//
-//        return $this->render('admin/blog/edit.html.twig', [
-//            'post' => $post,
-//            'form' => $form->createView(),
-//        ]);
-//    }
+    /**
+     * Displays a form to edit an existing Post entity.
+     *
+     * @Route("/{id<\d+>}/edit", methods="GET|POST", name="lab_admin_accessory_edit")
+     */
+    public function edit(Request $request, Accessory $accessory, AccessoryRepository $repository, LoggerInterface $logger): Response
+    {
+        $amountOfLoans = $repository->findLoanedAccessoriesById($accessory->getId());
+//        $logger->info($amountOfLoans);
+        $form = $this->createForm(AccessoryType::class, $accessory, array('amountOfLoans' => $amountOfLoans));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'post.updated_successfully');
+
+            return $this->redirectToRoute('lab_admin_accessory_edit', ['id' => $accessory->getId()]);
+        }
+
+        return $this->render('admin/lab/edit.html.twig', [
+            'post' => $accessory,
+            'form' => $form->createView(),
+        ]);
+    }
 //
 //    /**
 //     * Deletes a Post entity.
