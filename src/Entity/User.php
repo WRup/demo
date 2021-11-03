@@ -11,6 +11,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -78,6 +79,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @var Loan[]|Collection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="Loan",
+     *      mappedBy="user",
+     *      orphanRemoval=true,
+     *      cascade={"persist"}
+     * )
+     */
+    private $loans = [];
 
     public function getId(): ?int
     {
@@ -148,6 +161,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
     }
+
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): void
+    {
+        $loan->setUser($this);
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+        }
+    }
+
+    public function removeLoan(Loan $loan): void
+    {
+        $this->loans->removeElement($loan);
+    }
+
+
 
     /**
      * Returns the salt that was originally used to encode the password.

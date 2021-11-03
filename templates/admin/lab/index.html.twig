@@ -20,10 +20,10 @@
                 {# it's not mandatory to set the timezone in localizeddate(). This is done to
                    avoid errors when the 'intl' PHP extension is not available and the application
                    is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
-                <td class="text-center">{{ accessory.quantity - accessory.users|length }}/{{ accessory.quantity }}</td>
+                <td class="text-center">{{ accessory.quantity - accessory.loans|length }}/{{ accessory.quantity }}</td>
                 <td class="text-right">
                     <div class="item-actions">
-                        <a href="{{ path('admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default">
+                        <a href="{{ path('lab_admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default">
                             <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
                         </a>
 

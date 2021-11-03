@@ -11,7 +11,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Accessory;
 use App\Entity\Comment;
+use App\Entity\Loan;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Entity\User;
@@ -37,6 +39,8 @@ class AppFixtures extends Fixture
         $this->loadUsers($manager);
         $this->loadTags($manager);
         $this->loadPosts($manager);
+        $this->loadAccessories($manager);
+        $this->loadLoans($manager);
     }
 
     private function loadUsers(ObjectManager $manager): void
@@ -63,7 +67,7 @@ class AppFixtures extends Fixture
             $tag->setName($name);
 
             $manager->persist($tag);
-            $this->addReference('tag-'.$name, $tag);
+            $this->addReference('tag-' . $name, $tag);
         }
 
         $manager->flush();
@@ -85,12 +89,44 @@ class AppFixtures extends Fixture
                 $comment = new Comment();
                 $comment->setAuthor($this->getReference('john_user'));
                 $comment->setContent($this->getRandomText(random_int(255, 512)));
-                $comment->setPublishedAt(new \DateTime('now + '.$i.'seconds'));
+                $comment->setPublishedAt(new \DateTime('now + ' . $i . 'seconds'));
 
                 $post->addComment($comment);
             }
 
             $manager->persist($post);
+        }
+
+        $manager->flush();
+    }
+
+    private function loadAccessories(ObjectManager $manager): void
+    {
+        foreach ($this->getAccessoryData() as [$name, $manufacturer, $model, $url, $image, $content, $quantity]) {
+            $accessory = new Accessory();
+            $accessory->setName($name);
+            $accessory->setManufacturer($manufacturer);
+            $accessory->setModel($model);
+            $accessory->setUrl($url);
+            $accessory->setImage($image);
+            $accessory->setContent($content);
+            $accessory->setQuantity($quantity);
+
+            $manager->persist($accessory);
+            $this->addReference($model, $accessory);
+        }
+
+        $manager->flush();
+    }
+
+    private function loadLoans(ObjectManager $manager): void
+    {
+        foreach ($this->getLoanData() as [$username, $accessoryModel]) {
+            $loan = new Loan();
+            $loan->setUser($this->getReference($username));
+            $loan->setAccessory($this->getReference($accessoryModel));
+
+            $manager->persist($loan);
         }
 
         $manager->flush();
@@ -131,7 +167,7 @@ class AppFixtures extends Fixture
                 $this->slugger->slug($title)->lower(),
                 $this->getRandomText(),
                 $this->getPostContent(),
-                new \DateTime('now - '.$i.'days'),
+                new \DateTime('now - ' . $i . 'days'),
                 // Ensure that the first post is written by Jane Doe to simplify tests
                 $this->getReference(['jane_admin', 'tom_admin'][0 === $i ? 0 : random_int(0, 1)]),
                 $this->getRandomTags(),
@@ -236,6 +272,42 @@ class AppFixtures extends Fixture
         shuffle($tagNames);
         $selectedTags = \array_slice($tagNames, 0, random_int(2, 4));
 
-        return array_map(function ($tagName) { return $this->getReference('tag-'.$tagName); }, $selectedTags);
+        return array_map(function ($tagName) {
+            return $this->getReference('tag-' . $tagName);
+        }, $selectedTags);
+    }
+
+    private function getAccessoryData(): array
+    {
+        return [
+            [
+                'Laxco SeBa Pro4 Series Digital Microscope System',
+                'Laxco',
+                'SEBAP4BF1',
+                'https://www.fishersci.com/shop/products/seba-pro4-series-digital-microscope-system-4/SEBAP4BF1',
+                '/images/micro.png',
+                'Laxco SeBa Pro4 Series Digital Microscope System integrates digital technology with high quality microscope optics into seamless easy-to-use system.',
+                10
+            ],
+
+            [
+                'Laxco MZS32 Series Stereo Microscope',
+                'Laxco',
+                'MZS32321',
+                'https://www.fishersci.com/shop/products/mzs32-series-stereo-microscope-4/MZS32321',
+                '/images/micro2.png',
+                'Laxco™ MZS32 Series Stereo Microscope combines advanced contrast methods to deliver brilliant resolution for wide range of sample types. Its expandability to fluorescence makes this the ideal system for a growing labs needs.',
+                15
+            ]
+        ];
+    }
+
+    private function getLoanData(): array
+    {
+        return [
+            ['jane_admin', 'SEBAP4BF1'],
+            ['jane_admin', 'MZS32321'],
+            ['john_user', 'MZS32321']
+        ];
     }
 }

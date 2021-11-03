@@ -211,6 +211,10 @@
                 <source>label.quantity</source>
                 <target>Liczba sztuk na wyposarzeniu</target>
             </trans-unit>
+            <trans-unit id="label.loans">
+                <source>label.loans</source>
+                <target>Stan wypożyczeń</target>
+            </trans-unit>
             <trans-unit id="label.tags">
                 <source>label.tags</source>
                 <target>Tagi</target>

@@ -3,8 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Accessory;
+use App\Entity\Loan;
+use App\Entity\User;
 use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
+use App\Repository\LoanRepository;
+use App\Repository\UserRepository;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -95,31 +99,33 @@ class AccessoryController extends AbstractController
 //        ]);
 //    }
 //
-//    /**
-//     * Finds and displays a Post entity.
-//     *
-//     * @Route("/{id<\d+>}", methods="GET", name="admin_post_show")
-//     */
-//    public function show(Accessory $accessory): Response
-//    {
-//        // This security check can also be performed
-//        // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
+    /**
+     * Finds and displays a Post entity.
+     *
+     * @Route("/{id<\d+>}", methods="GET", name="lab_admin_post_show")
+     */
+    public function show(Accessory $accessory, UserRepository $userRepository): Response
+    {
+        // This security check can also be performed
+        // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
 //        $this->denyAccessUnlessGranted(PostVoter::SHOW, $accessory, 'Posts can only be shown to their authors.');
-//
-//        return $this->render('admin/blog/show.html.twig', [
-//            'post' => $accessory,
-//        ]);
-//    }
-//
+
+        $users = $userRepository->findAll();
+
+        return $this->render('admin/lab/show_list.html.twig', [
+            'accessory' => $accessory,
+            'users' => $users
+        ]);
+    }
+
     /**
      * Displays a form to edit an existing Post entity.
      *
      * @Route("/{id<\d+>}/edit", methods="GET|POST", name="lab_admin_accessory_edit")
      */
-    public function edit(Request $request, Accessory $accessory, AccessoryRepository $repository, LoggerInterface $logger): Response
+    public function edit(Request $request, Accessory $accessory, LoanRepository $repository, LoggerInterface $logger): Response
     {
-        $amountOfLoans = $repository->findLoanedAccessoriesById($accessory->getId());
-//        $logger->info($amountOfLoans);
+        $amountOfLoans = $repository->findLoansByAccessoryIdCount($accessory);
         $form = $this->createForm(AccessoryType::class, $accessory, array('amountOfLoans' => $amountOfLoans));
         $form->handleRequest($request);
 
@@ -137,29 +143,57 @@ class AccessoryController extends AbstractController
         ]);
     }
 //
-//    /**
-//     * Deletes a Post entity.
-//     *
-//     * @Route("/{id}/delete", methods="POST", name="admin_post_delete")
-//     * @IsGranted("delete", subject="post")
-//     */
-//    public function delete(Request $request, Post $post): Response
-//    {
-//        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
-//            return $this->redirectToRoute('admin_post_index');
-//        }
-//
-//        // Delete the tags associated with this blog post. This is done automatically
-//        // by Doctrine, except for SQLite (the database used in this application)
-//        // because foreign key support is not enabled by default in SQLite
-//        $post->getTags()->clear();
-//
-//        $em = $this->getDoctrine()->getManager();
-//        $em->remove($post);
-//        $em->flush();
-//
-//        $this->addFlash('success', 'post.deleted_successfully');
-//
-//        return $this->redirectToRoute('admin_post_index');
-//    }
+    /**
+     * Deletes a Loaned Accessory entity.
+     *
+     * @Route("/loan/{id}/delete", methods="POST", name="lab_admin_loaned_accessory_delete")
+     */
+    public function deleteLoan(Request $request, Loan $loan): Response
+    {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            return $this->redirectToRoute('lab_admin_index');
+        }
+
+        // Delete the tags associated with this blog post. This is done automatically
+        // by Doctrine, except for SQLite (the database used in this application)
+        // because foreign key support is not enabled by default in SQLite
+//        $accessory->getTags()->clear();
+
+        $em = $this->getDoctrine()->getManager();
+        $accessory = $loan->getAccessory();
+        $accessory->setQuantity($accessory->getQuantity() - 1);
+        $em->remove($loan);
+        $em->persist($accessory);
+        $em->flush();
+
+        $this->addFlash('success', 'post.deleted_successfully');
+
+        return $this->redirectToRoute('lab_admin_index');
+    }
+
+    /**
+     * Deletes a Loaned Accessory entity.
+     *
+     * @Route("/{id}/delete", methods="POST", name="lab_admin_free_accessory_delete")
+     */
+    public function deleteSingleAccessory(Request $request, Accessory $accessory): Response
+    {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            return $this->redirectToRoute('lab_admin_index');
+        }
+
+        // Delete the tags associated with this blog post. This is done automatically
+        // by Doctrine, except for SQLite (the database used in this application)
+        // because foreign key support is not enabled by default in SQLite
+//        $accessory->getTags()->clear();
+
+        $em = $this->getDoctrine()->getManager();
+        $accessory->setQuantity($accessory->getQuantity()-1);
+        $em->persist($accessory);
+        $em->flush();
+
+        $this->addFlash('success', 'post.deleted_successfully');
+
+        return $this->redirectToRoute('lab_admin_index');
+    }
 }

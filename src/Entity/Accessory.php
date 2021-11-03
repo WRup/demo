@@ -91,14 +91,16 @@ class Accessory
     private $quantity;
 
     /**
-     * @var User[]|Collection
+     * @var Loan[]|Collection
      *
-     * @ORM\ManyToMany (targetEntity="App\Entity\User", cascade={"persist"})
-     * @ORM\JoinTable (name="accessory_user")
-     * @ORM\OrderBy({"fullName": "ASC"})
-     *
+     * @ORM\OneToMany(
+     *      targetEntity="Loan",
+     *      mappedBy="accessory",
+     *      orphanRemoval=true,
+     *      cascade={"persist"}
+     * )
      */
-    private $users;
+    private $loans;
 
 
     /**
@@ -113,7 +115,7 @@ class Accessory
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->loans = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -235,27 +237,22 @@ class Accessory
     }
 
 
-    /**
-     * @return User[]|Collection
-     */
-    public function getUsers(): Collection
+    public function getLoans(): Collection
     {
-        return $this->users;
+        return $this->loans;
     }
 
-    /**
-     * @param User[] $users
-     */
-    public function addUser(User ...$users): void
+    public function addLoan(Loan $loan): void
     {
-        foreach ($users as $user) {
-            $this->users->add($user);
+        $loan->setAccessory($this);
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
         }
     }
 
-    public function removeUser(Tag $user): void
+    public function removeLoan(Loan $loan): void
     {
-        $this->users->removeElement($user);
+        $this->loans->removeElement($loan);
     }
 
 
