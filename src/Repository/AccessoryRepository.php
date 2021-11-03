@@ -57,8 +57,8 @@ class AccessoryRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('a')
-            ->addSelect('l')
-            ->innerJoin('a.loans', 'l')
+//            ->addSelect('l')
+//            ->innerJoin('a.loans', 'l')
 //            ->leftJoin('a.tags', 't')
 //            ->where('p.publishedAt <= :now')
 //            ->orderBy('a.name', 'ASC')

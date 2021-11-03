@@ -182,17 +182,59 @@ class AccessoryController extends AbstractController
             return $this->redirectToRoute('lab_admin_index');
         }
 
-        // Delete the tags associated with this blog post. This is done automatically
-        // by Doctrine, except for SQLite (the database used in this application)
-        // because foreign key support is not enabled by default in SQLite
-//        $accessory->getTags()->clear();
-
         $em = $this->getDoctrine()->getManager();
         $accessory->setQuantity($accessory->getQuantity()-1);
         $em->persist($accessory);
         $em->flush();
 
         $this->addFlash('success', 'post.deleted_successfully');
+
+        return $this->redirectToRoute('lab_admin_index');
+    }
+
+
+    /**
+     * Update a Loaned Accessory entity.
+     *
+     * @Route("/loan/{id}/user/{userId}/update", methods="POST", name="lab_admin_loaned_accessory_update")
+     */
+    public function updateLoan(Request $request, Loan $loan, int $userId, UserRepository $userRepository): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        if($userId == -1) {
+            $em->remove($loan);
+        } else{
+            $user = $userRepository->find($userId);
+            $loan->setUser($user);
+            $em->merge($loan);
+        }
+        $em->flush();
+        $this->addFlash('success', 'post.updated_successfully');
+
+        return $this->redirectToRoute('lab_admin_index');
+    }
+
+    /**
+     * Create a Loaned Accessory entity.
+     *
+     * @Route("/accessory/{id}/user/{userId}/create", methods="POST", name="lab_admin_loaned_accessory_create")
+     */
+    public function createLoan(Request $request, Accessory $accessory, int $userId, UserRepository $userRepository, LoggerInterface $logger): Response
+    {
+
+//        $logger->info("USEEER IDDD: " . $userId);
+//        $logger->info("ACCESSSORRY IDDDD: " . $accessory->getId());
+        $em = $this->getDoctrine()->getManager();
+        if($userId != -1) {
+            $user = $userRepository->find($userId);
+            $loan = new Loan();
+            $loan->setAccessory($accessory);
+            $loan->setUser($user);
+            $logger->info("--------------------------------------- PERSIST --------------------------------");
+            $em->persist($loan);
+        }
+        $em->flush();
+        $this->addFlash('success', 'post.updated_successfully');
 
         return $this->redirectToRoute('lab_admin_index');
     }

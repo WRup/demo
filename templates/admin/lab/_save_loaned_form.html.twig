@@ -1,0 +1,8 @@
+{{ include('blog/_delete_post_confirmation.html.twig') }}
+<form action="{{ url('lab_admin_loaned_accessory_delete', {id: loan}) }}" method="post" data-confirmation="true" id="delete-form">
+    <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+    <button id="saveButton-{{ loan }}" type="submit" class="btn btn-sm btn-block btn-info">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+        {{ 'action.save_loan'|trans }}
+    </button>
+</form>

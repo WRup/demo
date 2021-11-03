@@ -4,7 +4,7 @@ import 'typeahead.js';
 import Bloodhound from "bloodhound-js";
 import 'bootstrap-tagsinput';
 
-$(function() {
+$(function () {
     // Datetime picker initialization.
     // See https://eonasdan.github.io/bootstrap-datetimepicker/
     $('[data-toggle="datetimepicker"]').datetimepicker({
