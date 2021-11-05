@@ -2,6 +2,7 @@
 
 {% block body_id 'admin_post_show' %}
 
+{% set lp = 1 %}
 {% block main %}
     <h1>{{ 'title.post_list'|trans }}</h1>
 
@@ -9,6 +10,7 @@
         <thead>
         <tr>
             <th scope="col">{{ 'label.title'|trans }}</th>
+            <th scope="col">{{ 'label.number'|trans }}</th>
             <th scope="col" class="text-center"><i class="fa fa-archive"
                                                    aria-hidden="true"></i> {{ 'label.user'|trans }}</th>
             <th scope="col" class="text-right"><i class="fa fa-cogs" aria-hidden="true"></i> {{ 'label.actions'|trans }}
@@ -19,6 +21,7 @@
         {% for loan in accessory.loans %}
             <tr>
                 <td>{{ accessory.name }}</td>
+                <td>{{ lp }}</td>
                 <td class="text-center">
                     <select id="user-select" class="form-select" aria-label="User select"
                             onchange="updateLoan(this, {{ loan.id }}, '{{ 'action.save'|trans }}' )">
@@ -36,42 +39,49 @@
                     </div>
                 </td>
             </tr>
+            {% set lp = lp + 1 %}
         {% endfor %}
-        {% for i in 0..(accessory.quantity - accessory.loans|length) %}
-            <tr>
-                <td>{{ accessory.name }}</td>
-                <td class="text-center">
-                    <select class="form-select" aria-label="User select"
-                            onchange="createLoan(this, {{ accessory.id }}, {{ i }}, '{{ 'action.save'|trans }}' )">
-                        {% for user in users %}
-                            <option value="{{ user.id }}">{{ user.fullName }}</option>
-                        {% endfor %}
-                        <option value="-1" selected></option>
-                    </select>
-                </td>
-                <td class="text-right">
-                    <div class="item-actions" style="display: flex; float: right">
-                        {# <a href="{{ path('admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default"> #}
-                        {# <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }} #}
-                        {# </a> #}
-                        <div id="create-row-{{ i }}"></div>
-                        {{ include('admin/lab/_delete_free_form.html.twig', {accessory: accessory}, with_context = false) }}
-                    </div>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4" align="center">{{ 'post.no_posts_found'|trans }}</td>
-            </tr>
-        {% endfor %}
+        {% set freeAccessories = (accessory.quantity - accessory.loans|length) %}
+        {% if freeAccessories != 0 %}
+            {% for i in range(1, freeAccessories) %}
+                <tr>
+                    <td>{{ accessory.name }}{{ accessory.quantity - accessory.loans|length }}</td>
+                    <td>{{ lp }}</td>
+                    <td class="text-center">
+                        <select class="form-select" aria-label="User select"
+                                onchange="createLoan(this, {{ accessory.id }}, {{ i }}, '{{ 'action.save'|trans }}' )">
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.fullName }}</option>
+                            {% endfor %}
+                            <option value="-1" selected></option>
+                        </select>
+                    </td>
+                    <td class="text-right">
+                        <div class="item-actions" style="display: flex; float: right">
+                            {# <a href="{{ path('admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default"> #}
+                            {# <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }} #}
+                            {# </a> #}
+                            <div id="create-row-{{ i }}"></div>
+                            {{ include('admin/lab/_delete_free_form.html.twig', {accessory: accessory}, with_context = false) }}
+                        </div>
+                    </td>
+                </tr>
+                {% set lp = lp + 1 %}
+            {% else %}
+                <tr>
+                    <td colspan="4" align="center">{{ 'post.no_posts_found'|trans }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </tbody>
     </table>
     <div class="section actions">
-        <a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('lab_admin_post_add', {id: accessory.id}) }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_post'|trans }}
         </a>
     </div>
     {% block javascripts %}
+        {{ parent() }}
         <script>
             function updateLoan(event, loanId, buttonName) {
                 const elementById = document.getElementById("row-" + loanId);
@@ -81,6 +91,7 @@
                 f.setAttribute('id', "delete-form")
                 f.setAttribute('method', "post");
                 f.setAttribute('action', "loan/" + loanId + "/user/" + event.value + "/update");
+                f.style.marginRight = "5px";
 
                 const i = document.createElement("button");
                 i.setAttribute('type', "submit");
@@ -89,9 +100,9 @@
                 const s = document.createElement("i");
                 s.setAttribute('class', "fa fa-floppy-o");
                 s.setAttribute('aria-hidden', "true");
-                s.textContent = buttonName;
 
                 i.appendChild(s);
+                i.appendChild(document.createTextNode(buttonName));
                 f.appendChild(i);
                 elementById.appendChild(f);
 
@@ -105,6 +116,7 @@
                 f.setAttribute('id', "delete-form")
                 f.setAttribute('method', "post");
                 f.setAttribute('action', "accessory/" + accessoryId + "/user/" + event.value + "/create");
+                f.style.marginRight = "5px";
 
                 const i = document.createElement("button");
                 i.setAttribute('type', "submit");
@@ -113,26 +125,15 @@
                 const s = document.createElement("i");
                 s.setAttribute('class', "fa fa-floppy-o");
                 s.setAttribute('aria-hidden', "true");
-                s.textContent = buttonName;
 
                 i.appendChild(s);
+                i.appendChild(document.createTextNode(buttonName));
                 f.appendChild(i);
                 elementById.appendChild(f);
 
             }
         </script>
     {% endblock %}
-    {# {% block javascripts %} #}
-    {# <script type="text/javascript"> #}
-    {# $(document).ready(function () { #}
-    {# // $('#user-select').on('change', function () { #}
-    {# //     const saveButton = document.getElementById("saveButton-5"); #}
-    {# //     saveButton.style.display = "block"; #}
-    {# // }) #}
-    {# alert("HAAALO KARTUS HAAAALO!") #}
-    {# }); #}
-    {# </script> #}
-    {# {% endblock %} #}
     {# {% if paginator.hasToPaginate %} #}
     {# <div class="navigation text-center"> #}
     {# <ul class="pagination"> #}

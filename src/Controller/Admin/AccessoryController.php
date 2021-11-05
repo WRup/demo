@@ -98,7 +98,31 @@ class AccessoryController extends AbstractController
 //            'form' => $form->createView(),
 //        ]);
 //    }
-//
+
+    /**
+     * Adds a new copy of given Accessory entity.
+     *
+     * @Route("/new/{id}", methods="GET|POST", name="lab_admin_post_add")
+     *
+     * NOTE: the Method annotation is optional, but it's a recommended practice
+     * to constraint the HTTP methods each controller responds to (by default
+     * it responds to all methods).
+     */
+    public function new(Request $request, UserRepository  $userRepository, Accessory $accessory): Response
+    {
+
+        $users = $userRepository->findAll();
+        $accessory->setQuantity($accessory->getQuantity()+1);
+        $em = $this->getDoctrine()->getManager();
+        $em->merge($accessory);
+        $em->flush();
+
+
+        return $this->redirectToRoute('lab_admin_post_show', [
+            'id' => $accessory->getId()
+        ]);
+    }
+
     /**
      * Finds and displays a Post entity.
      *
@@ -138,11 +162,11 @@ class AccessoryController extends AbstractController
         }
 
         return $this->render('admin/lab/edit.html.twig', [
-            'post' => $accessory,
+            'accessory' => $accessory,
             'form' => $form->createView(),
         ]);
     }
-//
+
     /**
      * Deletes a Loaned Accessory entity.
      *
@@ -168,7 +192,9 @@ class AccessoryController extends AbstractController
 
         $this->addFlash('success', 'post.deleted_successfully');
 
-        return $this->redirectToRoute('lab_admin_index');
+        return $this->redirectToRoute('lab_admin_post_show', [
+            'id' => $accessory->getId()
+        ]);
     }
 
     /**
@@ -183,13 +209,15 @@ class AccessoryController extends AbstractController
         }
 
         $em = $this->getDoctrine()->getManager();
-        $accessory->setQuantity($accessory->getQuantity()-1);
+        $accessory->setQuantity($accessory->getQuantity() - 1);
         $em->persist($accessory);
         $em->flush();
 
         $this->addFlash('success', 'post.deleted_successfully');
 
-        return $this->redirectToRoute('lab_admin_index');
+        return $this->redirectToRoute('lab_admin_post_show', [
+            'id' => $accessory->getId()
+        ]);
     }
 
 
@@ -201,9 +229,9 @@ class AccessoryController extends AbstractController
     public function updateLoan(Request $request, Loan $loan, int $userId, UserRepository $userRepository): Response
     {
         $em = $this->getDoctrine()->getManager();
-        if($userId == -1) {
+        if ($userId == -1) {
             $em->remove($loan);
-        } else{
+        } else {
             $user = $userRepository->find($userId);
             $loan->setUser($user);
             $em->merge($loan);
@@ -211,7 +239,9 @@ class AccessoryController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'post.updated_successfully');
 
-        return $this->redirectToRoute('lab_admin_index');
+        return $this->redirectToRoute('lab_admin_post_show', [
+            'id' => $loan->getAccessory()->getId()
+        ]);
     }
 
     /**
@@ -225,7 +255,7 @@ class AccessoryController extends AbstractController
 //        $logger->info("USEEER IDDD: " . $userId);
 //        $logger->info("ACCESSSORRY IDDDD: " . $accessory->getId());
         $em = $this->getDoctrine()->getManager();
-        if($userId != -1) {
+        if ($userId != -1) {
             $user = $userRepository->find($userId);
             $loan = new Loan();
             $loan->setAccessory($accessory);
@@ -236,6 +266,8 @@ class AccessoryController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'post.updated_successfully');
 
-        return $this->redirectToRoute('lab_admin_index');
+        return $this->redirectToRoute('lab_admin_post_show', [
+            'id' => $accessory->getId()
+        ]);
     }
 }
