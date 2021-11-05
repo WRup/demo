@@ -4,8 +4,8 @@
 
 {% block main %}
     {% for accessory in paginator.results %}
-        <article class="post">
-            <img class ="accessory_img" src="../../public/build/images/F304846~p.eps-650.png" alt="Missing image. Source url:{{ accessory.image }}"/>
+        <article class="accessory">
+            <img class ="accessory_img" src="{{ asset('uploads/images/' ~ accessory.image) }}" alt="Missing image. Source url:{{ accessory.image }}"/>
             <div class="post">
                 <h2>
                     <a href="{{ accessory.url }}">

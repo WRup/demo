@@ -434,6 +434,10 @@
                 <source>help.post_content</source>
                 <target>Use Markdown to format the blog post contents. HTML is allowed too.</target>
             </trans-unit>
+            <trans-unit id="help.tags">
+                <source>help.tags</source>
+                <target>Use commas to separate tags</target>
+            </trans-unit>
             <trans-unit id="help.comment_content">
                 <source>help.comment_content</source>
                 <target>Comments not complying with our Code of Conduct will be moderated.</target>

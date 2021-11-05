@@ -318,6 +318,10 @@
                 <source>help.quantity</source>
                 <target>Ilość sztuk wyporzyczonych przez studentów: {amountOfLoans, number}</target>
             </trans-unit>
+            <trans-unit id="help.tags">
+                <source>help.tags</source>
+                <target>Tagi oddzielane za pomocą ","</target>
+            </trans-unit>
             <trans-unit id="help.app_description">
                 <source>help.app_description</source>
                 <target><![CDATA[To jest <strong> przykładowa aplikacja </strong> zbudowana przy pomocy frameworka Symfony, dla zademonstrowania polecanego sposobu tworzenia aplikacji przy jego użyciu.]]></target>

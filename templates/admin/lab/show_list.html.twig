@@ -45,7 +45,7 @@
         {% if freeAccessories != 0 %}
             {% for i in range(1, freeAccessories) %}
                 <tr>
-                    <td>{{ accessory.name }}{{ accessory.quantity - accessory.loans|length }}</td>
+                    <td>{{ accessory.name }}</td>
                     <td>{{ lp }}</td>
                     <td class="text-center">
                         <select class="form-select" aria-label="User select"

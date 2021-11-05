@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Accessory;
 use App\Form\Type\TagsInputType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class AccessoryType extends AbstractType
 {
@@ -38,6 +40,30 @@ class AccessoryType extends AbstractType
         // $builder->add('title', null, ['required' => false, ...]);
 
         $builder
+            ->add('imageFile', FileType::class, [
+                'label' => 'label.image',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/jpg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image',
+                    ])
+                ],
+            ])
             ->add('name', TextType::class, [
                 'attr' => ['autofocus' => true],
                 'label' => 'label.name',
@@ -66,6 +92,7 @@ class AccessoryType extends AbstractType
             ->add('tags', TagsInputType::class, [
                 'label' => 'label.tags',
                 'required' => false,
+                'help' => 'help.tags'
             ])
             // form events let you modify information or fields at different steps
             // of the form handling process.
@@ -87,7 +114,7 @@ class AccessoryType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Accessory::class,
         ]);
-        $resolver->setRequired('amountOfLoans');
+        $resolver->setDefault('amountOfLoans', 0);
         $resolver->setAllowedTypes('amountOfLoans', array('int'));
     }
 }

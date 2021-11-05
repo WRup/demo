@@ -69,8 +69,7 @@ class Accessory
     /**
      * @var string
      *
-     * @ORM\Column (type="string")
-     * @Assert\Length(max=100)
+     * @ORM\Column (type="string", length=255, nullable=true)
      */
     private $image;
 

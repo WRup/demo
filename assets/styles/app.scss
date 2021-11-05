@@ -271,6 +271,16 @@ body#blog_index article.post {
   margin-bottom: 3em;
 }
 
+body#lab_index article.accessory {
+  margin-bottom: 3em;
+  display: flex;
+}
+
+body#lab_index img.accessory_img {
+  width: 150px;
+  height: 150px;
+}
+
 body#blog_index .post-metadata {
   font-size: 16px;
   margin-bottom: 8px;

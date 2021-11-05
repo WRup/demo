@@ -13,9 +13,13 @@ use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * Controller used to manage blog contents in the backend.
@@ -51,53 +55,45 @@ class AccessoryController extends AbstractController
         return $this->render('admin/lab/index.html.twig', ['paginator' => $latestAccessories]);
     }
 
-//    /**
-//     * Creates a new Post entity.
-//     *
-//     * @Route("/new", methods="GET|POST", name="admin_post_new")
-//     *
-//     * NOTE: the Method annotation is optional, but it's a recommended practice
-//     * to constraint the HTTP methods each controller responds to (by default
-//     * it responds to all methods).
-//     */
-//    public function new(Request $request): Response
-//    {
-//        $post = new Post();
-//        $post->setAuthor($this->getUser());
-//
-//        // See https://symfony.com/doc/current/form/multiple_buttons.html
-//        $form = $this->createForm(PostType::class, $post)
-//            ->add('saveAndCreateNew', SubmitType::class);
-//
-//        $form->handleRequest($request);
-//
-//        // the isSubmitted() method is completely optional because the other
-//        // isValid() method already checks whether the form is submitted.
-//        // However, we explicitly add it to improve code readability.
-//        // See https://symfony.com/doc/current/forms.html#processing-forms
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($post);
-//            $em->flush();
-//
-//            // Flash messages are used to notify the user about the result of the
-//            // actions. They are deleted automatically from the session as soon
-//            // as they are accessed.
-//            // See https://symfony.com/doc/current/controller.html#flash-messages
-//            $this->addFlash('success', 'post.created_successfully');
-//
-//            if ($form->get('saveAndCreateNew')->isClicked()) {
-//                return $this->redirectToRoute('admin_post_new');
-//            }
-//
-//            return $this->redirectToRoute('admin_post_index');
-//        }
-//
-//        return $this->render('admin/blog/new.html.twig', [
-//            'post' => $post,
-//            'form' => $form->createView(),
-//        ]);
-//    }
+    /**
+     * Creates a new Accessory entity.
+     *
+     * @Route("/new", methods="GET|POST", name="lab_admin_post_new")
+     *
+     * NOTE: the Method annotation is optional, but it's a recommended practice
+     * to constraint the HTTP methods each controller responds to (by default
+     * it responds to all methods).
+     */
+    public function new(Request $request, SluggerInterface $slugger): Response
+    {
+        $accessory = new Accessory();
+
+        $form = $this->createForm(AccessoryType::class, $accessory)
+            ->add('saveAndCreateNew', SubmitType::class);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->updateAccessoryImage($form, $slugger, $accessory);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($accessory);
+            $em->flush();
+
+            $this->addFlash('success', 'post.created_successfully');
+
+            if ($form->get('saveAndCreateNew')->isClicked()) {
+                return $this->redirectToRoute('lab_admin_post_new');
+            }
+
+            return $this->redirectToRoute('lab_admin_index');
+        }
+
+        return $this->render('admin/lab/new.html.twig', [
+            'accessory' => $accessory,
+            'form' => $form->createView(),
+        ]);
+    }
 
     /**
      * Adds a new copy of given Accessory entity.
@@ -108,15 +104,11 @@ class AccessoryController extends AbstractController
      * to constraint the HTTP methods each controller responds to (by default
      * it responds to all methods).
      */
-    public function new(Request $request, UserRepository  $userRepository, Accessory $accessory): Response
+    public function newCopy(Request $request, UserRepository $userRepository, Accessory $accessory): Response
     {
 
-        $users = $userRepository->findAll();
-        $accessory->setQuantity($accessory->getQuantity()+1);
-        $em = $this->getDoctrine()->getManager();
-        $em->merge($accessory);
-        $em->flush();
-
+        $accessory->setQuantity($accessory->getQuantity() + 1);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $accessory->getId()
@@ -130,10 +122,6 @@ class AccessoryController extends AbstractController
      */
     public function show(Accessory $accessory, UserRepository $userRepository): Response
     {
-        // This security check can also be performed
-        // using an annotation: @IsGranted("show", subject="post", message="Posts can only be shown to their authors.")
-//        $this->denyAccessUnlessGranted(PostVoter::SHOW, $accessory, 'Posts can only be shown to their authors.');
-
         $users = $userRepository->findAll();
 
         return $this->render('admin/lab/show_list.html.twig', [
@@ -147,13 +135,14 @@ class AccessoryController extends AbstractController
      *
      * @Route("/{id<\d+>}/edit", methods="GET|POST", name="lab_admin_accessory_edit")
      */
-    public function edit(Request $request, Accessory $accessory, LoanRepository $repository, LoggerInterface $logger): Response
+    public function edit(Request $request, Accessory $accessory, LoanRepository $repository, SluggerInterface $slugger): Response
     {
         $amountOfLoans = $repository->findLoansByAccessoryIdCount($accessory);
         $form = $this->createForm(AccessoryType::class, $accessory, array('amountOfLoans' => $amountOfLoans));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->updateAccessoryImage($form, $slugger, $accessory);
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'post.updated_successfully');
@@ -234,7 +223,6 @@ class AccessoryController extends AbstractController
         } else {
             $user = $userRepository->find($userId);
             $loan->setUser($user);
-            $em->merge($loan);
         }
         $em->flush();
         $this->addFlash('success', 'post.updated_successfully');
@@ -249,18 +237,14 @@ class AccessoryController extends AbstractController
      *
      * @Route("/accessory/{id}/user/{userId}/create", methods="POST", name="lab_admin_loaned_accessory_create")
      */
-    public function createLoan(Request $request, Accessory $accessory, int $userId, UserRepository $userRepository, LoggerInterface $logger): Response
+    public function createLoan(Request $request, Accessory $accessory, int $userId, UserRepository $userRepository): Response
     {
-
-//        $logger->info("USEEER IDDD: " . $userId);
-//        $logger->info("ACCESSSORRY IDDDD: " . $accessory->getId());
         $em = $this->getDoctrine()->getManager();
         if ($userId != -1) {
             $user = $userRepository->find($userId);
             $loan = new Loan();
             $loan->setAccessory($accessory);
             $loan->setUser($user);
-            $logger->info("--------------------------------------- PERSIST --------------------------------");
             $em->persist($loan);
         }
         $em->flush();
@@ -269,5 +253,32 @@ class AccessoryController extends AbstractController
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $accessory->getId()
         ]);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @param SluggerInterface $slugger
+     * @param Accessory $accessory
+     */
+    public function updateAccessoryImage(FormInterface $form, SluggerInterface $slugger, Accessory $accessory): void
+    {
+        $imageFile = $form->get('imageFile')->getData();
+
+        if ($imageFile) {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('images'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            $accessory->setImage($newFilename);
+        }
     }
 }
