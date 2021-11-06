@@ -12,8 +12,10 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 
 /**
  * This custom Doctrine repository is empty because so far we don't need any custom
@@ -27,8 +29,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $logger;
+    public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
     {
         parent::__construct($registry, User::class);
+        $this->logger = $logger;
+    }
+
+
+    public function findAll(int $page = 1): Paginator
+    {
+
+        $this->logger->info("---------------------- FIND ALL USERS ----------------------");
+        $studentRoles = "ROLE_USER";
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->where($qb->expr()->like('u.roles', ':studentRoles'))
+            ->setParameter('studentRoles', '%' . $studentRoles . '%')
+        ;
+
+
+
+        $this->logger->info($queryBuilder->getQuery()->getDQL());
+
+        return (new Paginator($queryBuilder))->paginate($page);
     }
 }
