@@ -240,6 +240,10 @@
                 <source>menu.accessory_list</source>
                 <target>Lista przyrządów</target>
             </trans-unit>
+            <trans-unit id="menu.user_list">
+                <source>menu.user_list</source>
+                <target>Lista studentów</target>
+            </trans-unit>
             <trans-unit id="menu.back_to_lab">
                 <source>menu.back_to_lab</source>
                 <target>Powrót do laboratorium</target>
