@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
 
     private function loadAccessories(ObjectManager $manager): void
     {
-        foreach ($this->getAccessoryData() as [$name, $manufacturer, $model, $url, $image, $content, $quantity]) {
+        foreach ($this->getAccessoryData() as [$name, $manufacturer, $model, $url, $image, $content, $quantity, $tags]) {
             $accessory = new Accessory();
             $accessory->setName($name);
             $accessory->setManufacturer($manufacturer);
@@ -71,6 +71,9 @@ class AppFixtures extends Fixture
             $accessory->setImage($image);
             $accessory->setContent($content);
             $accessory->setQuantity($quantity);
+            foreach ($tags as $tag){
+                $accessory->addTag($this->getReference($tag));
+            }
 
             $manager->persist($accessory);
             $this->addReference($model, $accessory);
@@ -96,9 +99,9 @@ class AppFixtures extends Fixture
     {
         return [
             // $userData = [$fullname, $username, $password, $email, $roles];
-            ['Jane Doe', 'jane_admin', 'kitten', 'jane_admin@symfony.com', ['ROLE_ADMIN']],
-            ['Tom Doe', 'tom_admin', 'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
-            ['John Doe', 'john_user', 'kitten', 'john_user@symfony.com', ['ROLE_USER']],
+            ['Tomasz Nowak', 'admin', 'admin', 'tomasz_admin@pw.pl', ['ROLE_ADMIN']],
+            ['Marek Wróbel', 'marek_wrobel', 'student', 'marek_wrobel@pw.pl', ['ROLE_USER']],
+            ['Natalia Trzebińska', 'natalia_trzebinska', 'student', 'natalia_trzebinska@pw.pl', ['ROLE_USER']],
         ];
     }
 
@@ -107,13 +110,9 @@ class AppFixtures extends Fixture
         return [
             'lorem',
             'ipsum',
-            'consectetur',
-            'adipiscing',
-            'incididunt',
-            'labore',
-            'voluptate',
-            'dolore',
-            'pariatur',
+            'lab',
+            'microscope',
+            'laxco',
         ];
     }
 
@@ -125,9 +124,10 @@ class AppFixtures extends Fixture
                 'Laxco',
                 'SEBAP4BF1',
                 'https://www.fishersci.com/shop/products/seba-pro4-series-digital-microscope-system-4/SEBAP4BF1',
-                '/images/micro.png',
+                'EYP2-1-01-1000Wx1000H.jpg',
                 'Laxco SeBa Pro4 Series Digital Microscope System integrates digital technology with high quality microscope optics into seamless easy-to-use system.',
-                10
+                10,
+                ["tag-microscope", "tag-laxco", "tag-lorem"]
             ],
 
             [
@@ -135,9 +135,10 @@ class AppFixtures extends Fixture
                 'Laxco',
                 'MZS32321',
                 'https://www.fishersci.com/shop/products/mzs32-series-stereo-microscope-4/MZS32321',
-                '/images/micro2.png',
+                'F202694~p.eps-650.png',
                 'Laxco™ MZS32 Series Stereo Microscope combines advanced contrast methods to deliver brilliant resolution for wide range of sample types. Its expandability to fluorescence makes this the ideal system for a growing labs needs.',
-                15
+                15,
+                ["tag-microscope", "tag-laxco"]
             ]
         ];
     }
@@ -145,9 +146,9 @@ class AppFixtures extends Fixture
     private function getLoanData(): array
     {
         return [
-            ['jane_admin', 'SEBAP4BF1'],
-            ['jane_admin', 'MZS32321'],
-            ['john_user', 'MZS32321']
+            ['marek_wrobel', 'SEBAP4BF1'],
+            ['marek_wrobel', 'MZS32321'],
+            ['natalia_trzebinska', 'MZS32321']
         ];
     }
 }

@@ -7,7 +7,7 @@ parameters:
     locale: 'en'
     # This parameter defines the codes of the locales (languages) enabled in the application
     app_locales: en|pl
-    app.notifications.email_sender: wiktor-rup@wp.pl
+    app.notifications.email_sender: some@email.example
     images: '%kernel.project_dir%/public/uploads/images'
 
 services:
