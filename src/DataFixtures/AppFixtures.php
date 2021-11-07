@@ -4,9 +4,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Accessory;
-use App\Entity\Comment;
 use App\Entity\Loan;
-use App\Entity\Post;
 use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;

@@ -4,7 +4,6 @@
 namespace App\Security;
 
 use App\Entity\Accessory;
-use App\Entity\Post;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

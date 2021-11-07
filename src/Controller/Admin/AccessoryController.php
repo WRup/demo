@@ -4,7 +4,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Accessory;
 use App\Entity\Loan;
-use App\Entity\Post;
 use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
 use App\Repository\LoanRepository;
