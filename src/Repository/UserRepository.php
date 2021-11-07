@@ -18,19 +18,13 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
 /**
- * This custom Doctrine repository is empty because so far we don't need any custom
- * method to query for application user information. But it's always a good practice
- * to define a custom repository that will be used when the application grows.
- *
- * See https://symfony.com/doc/current/doctrine.html#querying-for-objects-the-repository
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
+ * Repository that contains methods which guarantees access to User information.
  */
 class UserRepository extends ServiceEntityRepository
 {
 
     private $logger;
+
     public function __construct(ManagerRegistry $registry, LoggerInterface $logger)
     {
         parent::__construct($registry, User::class);
@@ -45,9 +39,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $this->createQueryBuilder('u')
             ->where($qb->expr()->like('u.roles', ':studentRoles'))
-            ->setParameter('studentRoles', '%' . $studentRoles . '%')
-        ;
-
+            ->setParameter('studentRoles', '%' . $studentRoles . '%');
 
 
         $this->logger->info($queryBuilder->getQuery()->getDQL());
@@ -62,9 +54,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $this->createQueryBuilder('u')
             ->where($qb->expr()->like('u.roles', ':studentRoles'))
-            ->setParameter('studentRoles', '%' . $studentRoles . '%')
-        ;
-
+            ->setParameter('studentRoles', '%' . $studentRoles . '%');
 
 
         $this->logger->info($queryBuilder->getQuery()->getDQL());

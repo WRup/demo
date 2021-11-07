@@ -11,14 +11,7 @@ use Psr\Log\LoggerInterface;
 use function Symfony\Component\String\u;
 
 /**
- * This custom Doctrine repository contains some methods which are useful when
- * querying for blog post information.
- *
- * See https://symfony.com/doc/current/doctrine.html#querying-for-objects-the-repository
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- * @author Yonel Ceruto <yonelceruto@gmail.com>
+ * Repository that contains methods which guarantees access to Accessory information.
  */
 class AccessoryRepository extends ServiceEntityRepository
 {
@@ -37,11 +30,7 @@ class AccessoryRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('a')
             ->addSelect('l', 't')
             ->leftJoin('a.loans', 'l')
-            ->leftJoin('a.tags', 't')
-//            ->where('p.publishedAt <= :now')
-//            ->orderBy('a.name', 'ASC')
-//            ->setParameter('now', new \DateTime())
-        ;
+            ->leftJoin('a.tags', 't');
 
         if (null !== $tag) {
             $qb->andWhere(':tag MEMBER OF a.tags')
@@ -57,27 +46,13 @@ class AccessoryRepository extends ServiceEntityRepository
     {
 
         $qb = $this->createQueryBuilder('a')
-            ->orderBy('a.name', 'ASC')
-//            ->addSelect('l')
-//            ->innerJoin('a.loans', 'l')
-//            ->leftJoin('a.tags', 't')
-//            ->where('p.publishedAt <= :now')
-//            ->orderBy('a.name', 'ASC')
-//            ->setParameter('now', new \DateTime())
-        ;
-
-//        if (null !== $tag) {
-//            $qb->andWhere(':tag MEMBER OF a.tags')
-//                ->setParameter('tag', $tag);
-//        }
+            ->orderBy('a.name', 'ASC');
 
         $this->logger->info($qb->getQuery()->getDQL());
 
         return (new Paginator($qb))->paginate($page);
     }
-    /**
-     * @return integer
-     */
+
     public function findLoanedAccessoriesById(int $id): int
     {
 
@@ -86,22 +61,9 @@ class AccessoryRepository extends ServiceEntityRepository
             ->andWhere("a.id = :id")
             ->setParameter('id', $id)
             ->addSelect('COUNT(u)')
-            ->innerJoin('a.users', 'u')
-//            ->leftJoin('a.tags', 't')
-//            ->where('p.publishedAt <= :now')
-//            ->orderBy('a.name', 'ASC')
-//            ->setParameter('now', new \DateTime())
-        ;
+            ->innerJoin('a.users', 'u');
 
-//        if (null !== $tag) {
-//            $qb->andWhere(':tag MEMBER OF a.tags')
-//                ->setParameter('tag', $tag);
-//        }
-//        var_dump($qb->getQuery()->getResult());
         return $qb->getQuery()->getSingleScalarResult();
-//        $this->logger->info($qb->getQuery()->getDQL());
-
-//        return (new Paginator($qb))->paginate($page);
     }
 
     /**
@@ -119,9 +81,8 @@ class AccessoryRepository extends ServiceEntityRepository
 
         foreach ($searchTerms as $key => $term) {
             $queryBuilder
-                ->orWhere('a.name LIKE :a_'.$key)
-                ->setParameter('a_'.$key, '%'.$term.'%')
-            ;
+                ->orWhere('a.name LIKE :a_' . $key)
+                ->setParameter('a_' . $key, '%' . $term . '%');
         }
 
         return $queryBuilder

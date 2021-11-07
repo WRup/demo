@@ -5,12 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Accessory;
 use App\Entity\Loan;
 use App\Entity\Post;
-use App\Entity\User;
 use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
 use App\Repository\LoanRepository;
 use App\Repository\UserRepository;
-use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,19 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * Controller used to manage blog contents in the backend.
+ * Controller used to manage accessories.
  *
- * Please note that the application backend is developed manually for learning
- * purposes. However, in your real Symfony application you should use any of the
- * existing bundles that let you generate ready-to-use backends without effort.
  *
  * See http://knpbundles.com/keyword/admin
  *
  * @Route("/lab/admin/post")
  * @IsGranted("ROLE_ADMIN")
  *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
 class AccessoryController extends AbstractController
 {
@@ -45,9 +38,6 @@ class AccessoryController extends AbstractController
      * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods="GET", name="lab_admin_index_paginated")
      * @Cache(smaxage="10")
      *
-     * NOTE: For standard formats, Symfony will also automatically choose the best
-     * Content-Type header for the response.
-     * See https://symfony.com/doc/current/routing.html#special-parameters
      */
     public function index(int $page, AccessoryRepository $accessories): Response
     {
@@ -59,11 +49,8 @@ class AccessoryController extends AbstractController
     /**
      * Creates a new Accessory entity.
      *
-     * @Route("/new", methods="GET|POST", name="lab_admin_post_new")
+     * @Route("/new", methods="GET|POST", name="lab_admin_accessory_new")
      *
-     * NOTE: the Method annotation is optional, but it's a recommended practice
-     * to constraint the HTTP methods each controller responds to (by default
-     * it responds to all methods).
      */
     public function new(Request $request, SluggerInterface $slugger): Response
     {
@@ -75,7 +62,6 @@ class AccessoryController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->updateAccessoryImage($form, $slugger, $accessory);
             $em = $this->getDoctrine()->getManager();
             $em->persist($accessory);
@@ -84,7 +70,7 @@ class AccessoryController extends AbstractController
             $this->addFlash('success', 'accessory.created_successfully');
 
             if ($form->get('saveAndCreateNew')->isClicked()) {
-                return $this->redirectToRoute('lab_admin_post_new');
+                return $this->redirectToRoute('lab_admin_accessory_new');
             }
 
             return $this->redirectToRoute('lab_admin_index');
@@ -99,27 +85,24 @@ class AccessoryController extends AbstractController
     /**
      * Adds a new copy of given Accessory entity.
      *
-     * @Route("/new/{id}", methods="GET|POST", name="lab_admin_post_add")
+     * @Route("/new/{id}", methods="GET|POST", name="lab_admin_accessory_add")
      *
-     * NOTE: the Method annotation is optional, but it's a recommended practice
-     * to constraint the HTTP methods each controller responds to (by default
-     * it responds to all methods).
      */
-    public function newCopy(Request $request, UserRepository $userRepository, Accessory $accessory): Response
+    public function newCopy(Request $request, Accessory $accessory): Response
     {
 
         $accessory->setQuantity($accessory->getQuantity() + 1);
         $this->getDoctrine()->getManager()->flush();
 
-        return $this->redirectToRoute('lab_admin_post_show', [
+        return $this->redirectToRoute('lab_admin_accessory_show', [
             'id' => $accessory->getId()
         ]);
     }
 
     /**
-     * Finds and displays a Post entity.
+     * Finds and displays an Accessory and User entities.
      *
-     * @Route("/{id<\d+>}", methods="GET", name="lab_admin_post_show")
+     * @Route("/{id<\d+>}", methods="GET", name="lab_admin_accessory_show")
      */
     public function show(Accessory $accessory, UserRepository $userRepository): Response
     {
@@ -132,7 +115,7 @@ class AccessoryController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Post entity.
+     * Displays a form to edit an existing Accessory entity.
      *
      * @Route("/{id<\d+>}/edit", methods="GET|POST", name="lab_admin_accessory_edit")
      */
@@ -168,9 +151,6 @@ class AccessoryController extends AbstractController
             return $this->redirectToRoute('lab_admin_index');
         }
 
-        // Delete the tags associated with this blog post. This is done automatically
-        // by Doctrine, except for SQLite (the database used in this application)
-        // because foreign key support is not enabled by default in SQLite
         $accessory->getTags()->clear();
 
         $em = $this->getDoctrine()->getManager();
@@ -193,11 +173,6 @@ class AccessoryController extends AbstractController
             return $this->redirectToRoute('lab_admin_index');
         }
 
-        // Delete the tags associated with this blog post. This is done automatically
-        // by Doctrine, except for SQLite (the database used in this application)
-        // because foreign key support is not enabled by default in SQLite
-//        $accessory->getTags()->clear();
-
         $em = $this->getDoctrine()->getManager();
         $accessory = $loan->getAccessory();
         $accessory->setQuantity($accessory->getQuantity() - 1);
@@ -207,7 +182,7 @@ class AccessoryController extends AbstractController
 
         $this->addFlash('success', 'accessory.deleted_successfully');
 
-        return $this->redirectToRoute('lab_admin_post_show', [
+        return $this->redirectToRoute('lab_admin_accessory_show', [
             'id' => $accessory->getId()
         ]);
     }
@@ -215,7 +190,7 @@ class AccessoryController extends AbstractController
     /**
      * Deletes a Loaned Accessory entity.
      *
-     * @Route("/{id}/delete", methods="POST", name="lab_admin_free_accessory_delete")
+     * @Route("/{id}/quantity/delete", methods="POST", name="lab_admin_free_accessory_delete")
      */
     public function deleteSingleAccessory(Request $request, Accessory $accessory): Response
     {
@@ -230,7 +205,7 @@ class AccessoryController extends AbstractController
 
         $this->addFlash('success', 'accessory.deleted_successfully');
 
-        return $this->redirectToRoute('lab_admin_post_show', [
+        return $this->redirectToRoute('lab_admin_accessory_show', [
             'id' => $accessory->getId()
         ]);
     }
@@ -253,7 +228,7 @@ class AccessoryController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'accessory.updated_successfully');
 
-        return $this->redirectToRoute('lab_admin_post_show', [
+        return $this->redirectToRoute('lab_admin_accessory_show', [
             'id' => $loan->getAccessory()->getId()
         ]);
     }
@@ -276,7 +251,7 @@ class AccessoryController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'accessory.updated_successfully');
 
-        return $this->redirectToRoute('lab_admin_post_show', [
+        return $this->redirectToRoute('lab_admin_accessory_show', [
             'id' => $accessory->getId()
         ]);
     }

@@ -9,16 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\LoanRepository")
  * @ORM\Table(name="loan")
  *
- * Defines the properties of the Post entity to represent the blog posts.
+ * Defines the properties of the Loan entity to represent the user loans of lab accessories.
  *
- * See https://symfony.com/doc/current/doctrine.html#creating-an-entity-class
- *
- * Tip: if you have an existing database, you can generate these entity class automatically.
- * See https://symfony.com/doc/current/doctrine/reverse_engineering.html
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
- * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
 class Loan
 {

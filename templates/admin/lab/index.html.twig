@@ -7,32 +7,35 @@
 
     <table class="table table-striped table-middle-aligned">
         <thead>
-            <tr>
-                <th scope="col" class="text-left"><i class="fa fa-list" aria-hidden="true"></i>{{ 'label.title'|trans }}</th>
-                <th scope="col" class="text-center"><i class="fa fa-archive" aria-hidden="true"></i> {{ 'label.quantity'|trans }}</th>
-                <th scope="col" class="text-right"><i class="fa fa-cogs" aria-hidden="true"></i> {{ 'label.actions'|trans }}</th>
-            </tr>
+        <tr>
+            <th scope="col" class="text-left"><i class="fa fa-list" aria-hidden="true"></i>{{ 'label.title'|trans }}
+            </th>
+            <th scope="col" class="text-center"><i class="fa fa-archive"
+                                                   aria-hidden="true"></i> {{ 'label.quantity'|trans }}</th>
+            <th scope="col" class="text-right"><i class="fa fa-cogs" aria-hidden="true"></i> {{ 'label.actions'|trans }}
+            </th>
+        </tr>
         </thead>
         <tbody>
         {% for accessory in paginator.results %}
             <tr>
                 <td>{{ accessory.name }}</td>
-                {# it's not mandatory to set the timezone in localizeddate(). This is done to
-                   avoid errors when the 'intl' PHP extension is not available and the application
-                   is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
                 <td class="text-center">{{ accessory.quantity - accessory.loans|length }}/{{ accessory.quantity }}</td>
                 <td class="text-right">
                     <div class="item-actions">
                         {{ include('lab/_delete_post_confirmation.html.twig') }}
-                        <form action="{{ url('lab_admin_accessory_delete', {id: accessory.id}) }}" method="post" data-confirmation="true" id="delete-form">
-                            <a href="{{ path('lab_admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default">
+                        <form action="{{ url('lab_admin_accessory_delete', {id: accessory.id}) }}" method="post"
+                              data-confirmation="true" id="delete-form">
+                            <a href="{{ path('lab_admin_accessory_show', {id: accessory.id}) }}"
+                               class="btn btn-sm btn-default">
                                 <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
                             </a>
 
-                            <a href="{{ path('lab_admin_accessory_edit', {id: accessory.id}) }}" class="btn btn-sm btn-primary">
+                            <a href="{{ path('lab_admin_accessory_edit', {id: accessory.id}) }}"
+                               class="btn btn-sm btn-primary">
                                 <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
                             </a>
-                            <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+                            <input type="hidden" name="token" value="{{ csrf_token('delete') }}"/>
                             <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                 {{ 'action.delete_accessory'|trans }}
@@ -44,12 +47,12 @@
         {% else %}
             <tr>
                 <td colspan="4" align="center">{{ 'accessory.no_accessories_found'|trans }}</td>
-           </tr>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
     <div class="section actions">
-        <a href="{{ path('lab_admin_post_new') }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('lab_admin_accessory_new') }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_accessory'|trans }}
         </a>
     </div>
@@ -86,16 +89,4 @@
             </ul>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block sidebar %}
-    <div class="section actions">
-        <a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_accessory'|trans }}
-        </a>
-    </div>
-
-    {{ parent() }}
-
-
 {% endblock %}

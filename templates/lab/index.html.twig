@@ -18,7 +18,7 @@
                     <span class="metadata"><i class="fa fa-barcode"></i> {{ accessory.model }}</span>
                 </p>
 
-                <p>{{ accessory.content }}</p>
+                <p>{{ accessory.content|nl2br }}</p>
 
                 {{ include('lab/_post_tags.html.twig') }}
             </div>
@@ -60,11 +60,4 @@
             </ul>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block sidebar %}
-    {{ parent() }}
-
-
-    {{ include('lab/_rss.html.twig') }}
 {% endblock %}

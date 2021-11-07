@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 namespace App\Form\Type;
 
@@ -22,7 +14,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 /**
  * Defines the custom form field type used to change user's password.
  *
- * @author Romain Monteil <monteil.romain@gmail.com>
  */
 class ChangePasswordType extends AbstractType
 {
@@ -56,7 +47,6 @@ class ChangePasswordType extends AbstractType
                 'second_options' => [
                     'label' => 'label.new_password_confirm',
                 ],
-            ])
-        ;
+            ]);
     }
 }
