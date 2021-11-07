@@ -168,9 +168,10 @@ class AccessoryController extends AbstractController
         $results = [];
         foreach ($foundAccessories as $accessory) {
             $results[] = [
-                'title' => htmlspecialchars($accessory->getName(), \ENT_COMPAT | \ENT_HTML5),
-                'user' => htmlspecialchars($accessory->getManufacturer(), \ENT_COMPAT | \ENT_HTML5),
-                'summary' => htmlspecialchars($accessory->getContent(), \ENT_COMPAT | \ENT_HTML5),
+                'name' => htmlspecialchars($accessory->getName(), \ENT_COMPAT | \ENT_HTML5),
+                'manufacturer' => htmlspecialchars($accessory->getManufacturer(), \ENT_COMPAT | \ENT_HTML5),
+                'model' => htmlspecialchars($accessory->getModel(), \ENT_COMPAT | \ENT_HTML5),
+                'content' => htmlspecialchars($accessory->getContent(), \ENT_COMPAT | \ENT_HTML5),
 //                'url' => $this->generateUrl('blog_post', ['slug' => $accessory->getSlug()]),
                 'url' => htmlspecialchars($accessory->getUrl(), \ENT_COMPAT | \ENT_HTML5),
             ];

@@ -32,12 +32,12 @@
         noResultsMessage: 'No results found',
         itemTemplate: '\
                 <article class="post">\
-                    <h2><a href="{{ url }}">{{ title }}</a></h2>\
+                    <h2><a href="{{ url }}">{{ name }}</a></h2>\
                     <p class="post-metadata">\
-                       <span class="metadata"><i class="fa fa-calendar"></i> {{ date }}</span>\
-                       <span class="metadata"><i class="fa fa-user"></i> {{ author }}</span>\
+                       <span class="metadata"><i class="fa fa-address-card"></i> {{ manufacturer }}</span>\
+                       <span class="metadata"><i class="fa fa-barcode"></i> {{ model }}</span>\
                     </p>\
-                    <p>{{ summary }}</p>\
+                    <p>{{ content }}</p>\
                 </article>'
     };
 
