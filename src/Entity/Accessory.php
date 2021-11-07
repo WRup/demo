@@ -45,7 +45,7 @@ class Accessory
      *
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="post.blank_summary")
-     * @Assert\Length(max=255)
+     * @Assert\Length(max=191)
      */
     private $model;
 
@@ -53,7 +53,7 @@ class Accessory
      * @var string
      *
      * @ORM\Column (type="string")
-     * @Assert\Length(max=255)
+     * @Assert\Length(max=191)
      */
     private $url;
 
@@ -61,7 +61,7 @@ class Accessory
     /**
      * @var string
      *
-     * @ORM\Column (type="string", length=255, nullable=true)
+     * @ORM\Column (type="string", length=191, nullable=true)
      */
     private $image;
 
@@ -69,8 +69,6 @@ class Accessory
      * @var string
      *
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="post.blank_content")
-     * @Assert\Length(min=10, minMessage="post.too_short_content")
      */
     private $content;
 

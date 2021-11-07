@@ -5,7 +5,7 @@
 {% block main %}
     {% for accessory in paginator.results %}
         <article class="accessory">
-            <img class ="accessory_img" src="{{ asset('uploads/images/' ~ accessory.image) }}" alt="Missing image. Source url:{{ accessory.image }}"/>
+            <img class ="accessory_img" src="{{ accessory.image }}" alt="Missing image. Source url:{{ accessory.image }}"/>
             <div class="post">
                 <h2>
                     <a href="{{ accessory.url }}">
