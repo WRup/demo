@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Accessory;
 use App\Entity\Loan;
+use App\Entity\Post;
 use App\Entity\User;
 use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
@@ -154,6 +155,31 @@ class AccessoryController extends AbstractController
             'accessory' => $accessory,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * Deletes an Accessory entity.
+     *
+     * @Route("/{id}/delete", methods="POST", name="lab_admin_accessory_delete")
+     */
+    public function delete(Request $request, Accessory $accessory): Response
+    {
+        if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
+            return $this->redirectToRoute('lab_admin_index');
+        }
+
+        // Delete the tags associated with this blog post. This is done automatically
+        // by Doctrine, except for SQLite (the database used in this application)
+        // because foreign key support is not enabled by default in SQLite
+        $accessory->getTags()->clear();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($accessory);
+        $em->flush();
+
+        $this->addFlash('success', 'accessory.deleted_successfully');
+
+        return $this->redirectToRoute('lab_admin_index');
     }
 
     /**

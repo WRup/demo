@@ -23,13 +23,21 @@
                 <td class="text-center">{{ accessory.quantity - accessory.loans|length }}/{{ accessory.quantity }}</td>
                 <td class="text-right">
                     <div class="item-actions">
-                        <a href="{{ path('lab_admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default">
-                            <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
-                        </a>
+                        {{ include('lab/_delete_post_confirmation.html.twig') }}
+                        <form action="{{ url('lab_admin_accessory_delete', {id: accessory.id}) }}" method="post" data-confirmation="true" id="delete-form">
+                            <a href="{{ path('lab_admin_post_show', {id: accessory.id}) }}" class="btn btn-sm btn-default">
+                                <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.show'|trans }}
+                            </a>
 
-                        <a href="{{ path('lab_admin_accessory_edit', {id: accessory.id}) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
-                        </a>
+                            <a href="{{ path('lab_admin_accessory_edit', {id: accessory.id}) }}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-edit" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                            </a>
+                            <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                {{ 'action.delete_accessory'|trans }}
+                            </button>
+                        </form>
                     </div>
                 </td>
             </tr>
