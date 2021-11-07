@@ -11,8 +11,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,9 +31,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
+
+    public function __construct()
+    {
+        $this->loans = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -69,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
@@ -107,12 +117,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->fullName;
     }
 
-    public function getUserIdentifier(): string
+    public function getUserIdentifier(): ?string
     {
         return $this->username;
     }
 
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->getUserIdentifier();
     }

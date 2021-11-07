@@ -38,10 +38,9 @@ class UserRepository extends ServiceEntityRepository
     }
 
 
-    public function findAll(int $page = 1): Paginator
+    public function findAllStudentUsersPaginator(int $page = 1): Paginator
     {
 
-        $this->logger->info("---------------------- FIND ALL USERS ----------------------");
         $studentRoles = "ROLE_USER";
         $qb = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder = $this->createQueryBuilder('u')
@@ -54,5 +53,22 @@ class UserRepository extends ServiceEntityRepository
         $this->logger->info($queryBuilder->getQuery()->getDQL());
 
         return (new Paginator($queryBuilder))->paginate($page);
+    }
+
+    public function findAllStudentUsers(): array
+    {
+
+        $studentRoles = "ROLE_USER";
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->where($qb->expr()->like('u.roles', ':studentRoles'))
+            ->setParameter('studentRoles', '%' . $studentRoles . '%')
+        ;
+
+
+
+        $this->logger->info($queryBuilder->getQuery()->getDQL());
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

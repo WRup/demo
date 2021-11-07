@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * See http://knpbundles.com/keyword/admin
  *
- * @Route("/lab/admin/")
+ * @Route("/lab/admin")
  * @IsGranted("ROLE_ADMIN")
  *
  * @author Ryan Weaver <weaverryan@gmail.com>

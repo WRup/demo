@@ -122,7 +122,7 @@ class AccessoryController extends AbstractController
      */
     public function show(Accessory $accessory, UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
+        $users = $userRepository->findAllStudentUsers();
 
         return $this->render('admin/lab/show_list.html.twig', [
             'accessory' => $accessory,

@@ -25,13 +25,17 @@
                    is forced to use the limited "intl polyfill", which only supports UTC and GMT #}
                 <td class="text-right">
                     <div class="item-actions">
-                        <a href="{{ path('lab_admin_user_edit', {id: user.id}) }}" class="btn btn-sm btn-default">
-                            <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.edit'|trans }}
-                        </a>
-
-                        <a href="{{ path('lab_admin_user_delete', {id: user.id}) }}" class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash" aria-hidden="true"></i> {{ 'action.delete_post'|trans }}
-                        </a>
+                        {{ include('blog/_delete_post_confirmation.html.twig') }}
+                        <form action="{{ url('lab_admin_user_delete', {id: user.id}) }}" method="post" data-confirmation="true" id="delete-fform">
+                            <a href="{{ path('lab_admin_user_edit', {id: user.id}) }}" class="btn btn-sm btn-default">
+                                <i class="fa fa-eye" aria-hidden="true"></i> {{ 'action.edit'|trans }}
+                            </a>
+                            <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                {{ 'action.delete_post'|trans }}
+                            </button>
+                        </form>
                     </div>
                 </td>
             </tr>
@@ -43,7 +47,7 @@
         </tbody>
     </table>
     <div class="section actions">
-        <a href="{{ path('lab_admin_post_new') }}" class="btn btn-lg btn-block btn-success">
+        <a href="{{ path('lab_admin_user_new') }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_post'|trans }}
         </a>
     </div>

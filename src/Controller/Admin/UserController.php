@@ -6,6 +6,7 @@ use App\Entity\Accessory;
 use App\Entity\Loan;
 use App\Entity\User;
 use App\Form\AccessoryType;
+use App\Form\RegistrationFormType;
 use App\Form\UserType;
 use App\Repository\AccessoryRepository;
 use App\Repository\LoanRepository;
@@ -19,6 +20,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -51,7 +53,7 @@ class UserController extends AbstractController
      */
     public function index(int $page, UserRepository $userRepository): Response
     {
-        $latestUsers = $userRepository->findAll($page);
+        $latestUsers = $userRepository->findAllStudentUsersPaginator($page);
 
         return $this->render('admin/user/index.html.twig', ['paginator' => $latestUsers]);
     }
@@ -86,7 +88,7 @@ class UserController extends AbstractController
      *
      * @Route("/user/{id}/delete", methods="POST", name="lab_admin_user_delete")
      */
-    public function deleteLoan(Request $request, User $user): Response
+    public function deleteUser(Request $request, User $user): Response
     {
         if (!$this->isCsrfTokenValid('delete', $request->request->get('token'))) {
             return $this->redirectToRoute('lab_admin_home');
@@ -104,5 +106,44 @@ class UserController extends AbstractController
         $this->addFlash('success', 'post.deleted_successfully');
 
         return $this->redirectToRoute('lab_admin_users');
+    }
+
+
+    /**
+     * Creates a new Accessory entity.
+     *
+     * @Route("/new", methods="GET|POST", name="lab_admin_user_new")
+     *
+     * NOTE: the Method annotation is optional, but it's a recommended practice
+     * to constraint the HTTP methods each controller responds to (by default
+     * it responds to all methods).
+     */
+    public function newStudentUser(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasherInterface->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setRoles(["ROLE_USER"]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+            return $this->redirectToRoute('lab_admin_users');
+        }
+
+        return $this->render('admin/user/new.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }
