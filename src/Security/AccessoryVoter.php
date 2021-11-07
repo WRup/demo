@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
- * It grants or denies permissions for actions related to blog posts (such as
+ * It grants or denies permissions for actions related to lab accessories (such as
  * showing, editing and deleting accessories/users).
  *
  */
