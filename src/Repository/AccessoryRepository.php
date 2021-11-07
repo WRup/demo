@@ -50,13 +50,14 @@ class AccessoryRepository extends ServiceEntityRepository
 
         $this->logger->info($qb->getQuery()->getDQL());
 
-        return (new Paginator($qb))->paginate($page);
+        return (new Paginator($qb->orderBy('a.name', 'ASC')))->paginate($page);
     }
 
     public function findAll(int $page = 1): Paginator
     {
 
         $qb = $this->createQueryBuilder('a')
+            ->orderBy('a.name', 'ASC')
 //            ->addSelect('l')
 //            ->innerJoin('a.loans', 'l')
 //            ->leftJoin('a.tags', 't')

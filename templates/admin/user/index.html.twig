@@ -3,7 +3,7 @@
 {% block body_id 'admin_post_index' %}
 
 {% block main %}
-    <h1>{{ 'title.post_list'|trans }}</h1>
+    <h1>{{ 'title.accessory_list'|trans }}</h1>
 
     <table class="table table-striped table-middle-aligned">
         <thead>
@@ -33,7 +33,7 @@
                             <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
                             <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
-                                {{ 'action.delete_post'|trans }}
+                                {{ 'action.delete_accessory'|trans }}
                             </button>
                         </form>
                     </div>
@@ -41,14 +41,14 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4" align="center">{{ 'post.no_posts_found'|trans }}</td>
+                <td colspan="4" align="center">{{ 'accessory.no_accessories_found'|trans }}</td>
            </tr>
         {% endfor %}
         </tbody>
     </table>
     <div class="section actions">
         <a href="{{ path('lab_admin_user_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_post'|trans }}
+            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_accessory'|trans }}
         </a>
     </div>
     {% if paginator.hasToPaginate %}
@@ -89,7 +89,7 @@
 {% block sidebar %}
     <div class="section actions">
         <a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_post'|trans }}
+            <i class="fa fa-plus" aria-hidden="true"></i> {{ 'action.create_accessory'|trans }}
         </a>
     </div>
 

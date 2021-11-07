@@ -80,7 +80,7 @@ class AccessoryController extends AbstractController
             $em->persist($accessory);
             $em->flush();
 
-            $this->addFlash('success', 'post.created_successfully');
+            $this->addFlash('success', 'accessory.created_successfully');
 
             if ($form->get('saveAndCreateNew')->isClicked()) {
                 return $this->redirectToRoute('lab_admin_post_new');
@@ -145,7 +145,7 @@ class AccessoryController extends AbstractController
             $this->updateAccessoryImage($form, $slugger, $accessory);
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'post.updated_successfully');
+            $this->addFlash('success', 'accessory.updated_successfully');
 
             return $this->redirectToRoute('lab_admin_accessory_edit', ['id' => $accessory->getId()]);
         }
@@ -179,7 +179,7 @@ class AccessoryController extends AbstractController
         $em->persist($accessory);
         $em->flush();
 
-        $this->addFlash('success', 'post.deleted_successfully');
+        $this->addFlash('success', 'accessory.deleted_successfully');
 
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $accessory->getId()
@@ -202,7 +202,7 @@ class AccessoryController extends AbstractController
         $em->persist($accessory);
         $em->flush();
 
-        $this->addFlash('success', 'post.deleted_successfully');
+        $this->addFlash('success', 'accessory.deleted_successfully');
 
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $accessory->getId()
@@ -225,7 +225,7 @@ class AccessoryController extends AbstractController
             $loan->setUser($user);
         }
         $em->flush();
-        $this->addFlash('success', 'post.updated_successfully');
+        $this->addFlash('success', 'accessory.updated_successfully');
 
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $loan->getAccessory()->getId()
@@ -248,7 +248,7 @@ class AccessoryController extends AbstractController
             $em->persist($loan);
         }
         $em->flush();
-        $this->addFlash('success', 'post.updated_successfully');
+        $this->addFlash('success', 'accessory.updated_successfully');
 
         return $this->redirectToRoute('lab_admin_post_show', [
             'id' => $accessory->getId()

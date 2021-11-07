@@ -8,7 +8,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>{% block title %}Inwentaryzacja wyposażenia laboratorium studenckiego{% endblock %}</title>
+        <title>{% block title %}{{ 'rss.description'|trans }}{% endblock %}</title>
         <link rel="alternate" type="application/rss+xml" title="{{ 'rss.title'|trans }}" href="{{ path('blog_rss') }}">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -25,7 +25,7 @@
                     <div class="container">
                         <div class="navbar-header col-md-3 col-lg-3">
                             <a class="navbar-brand" href="{{ path('homepage') }}">
-                                Laboratorium Studenckie
+                                {{ 'rss.title'|trans }}
                             </a>
 
                             <button type="button" class="navbar-toggle"

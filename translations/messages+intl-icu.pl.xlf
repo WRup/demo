@@ -39,9 +39,13 @@
                 <source>title.login</source>
                 <target>Bezpieczne logowanie</target>
             </trans-unit>
-            <trans-unit id="title.post_list">
-                <source>title.post_list</source>
-                <target>Lista artykułów</target>
+            <trans-unit id="title.accessory_list">
+                <source>title.accessory_list</source>
+                <target>Wyposażenie laboratorium</target>
+            </trans-unit>
+            <trans-unit id="title.show_accessory">
+                <source>title.show_accessory</source>
+                <target>Przyrząd #{id, number}</target>
             </trans-unit>
             <trans-unit id="title.edit_post">
                 <source>title.edit_post</source>
@@ -83,29 +87,33 @@
                 <source>action.save</source>
                 <target>Zapisz</target>
             </trans-unit>
-            <trans-unit id="action.delete_post">
-                <source>action.delete_post</source>
-                <target>Usuń artykuł</target>
+            <trans-unit id="action.delete_accessory">
+                <source>action.delete_accessory</source>
+                <target>Usuń przyrząd</target>
             </trans-unit>
-            <trans-unit id="delete_post_modal.title">
-                <source>delete_post_modal.title</source>
-                <target>Czy na pewno chcesz usunąć ten artykuł?</target>
+            <trans-unit id="delete_accessory_modal.title">
+                <source>delete_accessory_modal.title</source>
+                <target>Czy na pewno chcesz usunąć ten przyrząd?</target>
             </trans-unit>
-            <trans-unit id="delete_post_modal.body">
-                <source>delete_post_modal.body</source>
+            <trans-unit id="delete_accessory_modal.body">
+                <source>delete_accessory_modal.body</source>
                 <target>Ta akcja nie może zostać cofnięta.</target>
             </trans-unit>
-            <trans-unit id="label.delete_post">
-                <source>label.delete_post</source>
-                <target>Usuń artykuł</target>
+            <trans-unit id="label.delete_accessory">
+                <source>label.delete_accessory</source>
+                <target>Usuń przyrząd</target>
             </trans-unit>
             <trans-unit id="label.cancel">
                 <source>label.cancel</source>
                 <target>Anuluj</target>
             </trans-unit>
-            <trans-unit id="action.create_post">
-                <source>action.create_post</source>
-                <target>Dodaj nowy artykuł</target>
+            <trans-unit id="action.create_one_accessory">
+                <source>action.create_one_accessory</source>
+                <target>Dodaj jeden egzemplarz przyrządu #{id, number}</target>
+            </trans-unit>
+            <trans-unit id="action.create_accessory">
+                <source>action.create_accessory</source>
+                <target>Dodaj nowy przyrząd</target>
             </trans-unit>
             <trans-unit id="label.create_post">
                 <source>label.create_post</source>
@@ -143,6 +151,14 @@
                 <source>action.change_password</source>
                 <target>Zmiana hasła</target>
             </trans-unit>
+            <trans-unit id="label.loan_user">
+                <source>label.loan_user</source>
+                <target>Wypożyczone przez</target>
+            </trans-unit>
+            <trans-unit id="label.number">
+                <source>label.number</source>
+                <target>Liczba porządkowa</target>
+            </trans-unit>
             <trans-unit id="label.name">
                 <source>label.name</source>
                 <target>Nazwa przyrządu</target>
@@ -174,6 +190,14 @@
             <trans-unit id="label.username">
                 <source>label.username</source>
                 <target>Użytkownik</target>
+            </trans-unit>
+            <trans-unit id="label.fullname">
+                <source>label.fullname</source>
+                <target>Imię i nazwisko</target>
+            </trans-unit>
+            <trans-unit id="label.email">
+                <source>label.email</source>
+                <target>E-mail</target>
             </trans-unit>
             <trans-unit id="label.password">
                 <source>label.password</source>
@@ -285,28 +309,28 @@
                 <source>post.no_comments</source>
                 <target>Bądź pierwszym, który skomentuje.</target>
             </trans-unit>
-            <trans-unit id="post.no_posts_found">
-                <source>post.no_posts_found</source>
-                <target>Brak artykułów</target>
+            <trans-unit id="accessory.no_accessories_found">
+                <source>accessory.no_accessories_found</source>
+                <target>Brak przyrządów laboratoryjnych</target>
             </trans-unit>
-            <trans-unit id="post.created_successfully">
-                <source>post.created_successfully</source>
-                <target>Artykuł został utworzony!</target>
+            <trans-unit id="accessory.created_successfully">
+                <source>accessory.created_successfully</source>
+                <target>Przyrząd został utworzony!</target>
             </trans-unit>
-            <trans-unit id="post.updated_successfully">
-                <source>post.updated_successfully</source>
-                <target>Artykuł został zaktualizowany!</target>
+            <trans-unit id="accessory.updated_successfully">
+                <source>accessory.updated_successfully</source>
+                <target>Przyrząd został zaktualizowany!</target>
             </trans-unit>
-            <trans-unit id="post.deleted_successfully">
-                <source>post.deleted_successfully</source>
-                <target>Artykuł został usunięty!</target>
+            <trans-unit id="accessory.deleted_successfully">
+                <source>accessory.deleted_successfully</source>
+                <target>Przyrząd został usunięty!</target>
             </trans-unit>
-            <trans-unit id="post.search_for">
-                <source>post.search_for</source>
+            <trans-unit id="accessory.search_for">
+                <source>accessory.search_for</source>
                 <target>Szukaj...</target>
             </trans-unit>
-            <trans-unit id="post.search_no_results">
-                <source>post.search_no_results</source>
+            <trans-unit id="accessory.search_no_results">
+                <source>accessory.search_no_results</source>
                 <target>Brak wyników wyszukiwania</target>
             </trans-unit>
 
@@ -366,6 +390,15 @@
             <trans-unit id="info.change_password">
                 <source>info.change_password</source>
                 <target>Po zmianie hasła nastąpi wylogowanie z sytemu.</target>
+            </trans-unit>
+
+            <trans-unit id="rss.title">
+                <source>rss.title</source>
+                <target>Laboratorium Studenckie</target>
+            </trans-unit>
+            <trans-unit id="rss.description">
+                <source>rss.description</source>
+                <target>Inwentaryzacja wyposażenia laboratorium studenckiego</target>
             </trans-unit>
 
             <trans-unit id="paginator.previous">

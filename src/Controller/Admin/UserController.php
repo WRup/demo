@@ -71,7 +71,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'post.updated_successfully');
+            $this->addFlash('success', 'accessory.updated_successfully');
 
             return $this->redirectToRoute('lab_admin_user_edit', ['id' => $user->getId()]);
         }
@@ -103,7 +103,7 @@ class UserController extends AbstractController
         $em->remove($user);
         $em->flush();
 
-        $this->addFlash('success', 'post.deleted_successfully');
+        $this->addFlash('success', 'accessory.deleted_successfully');
 
         return $this->redirectToRoute('lab_admin_users');
     }
