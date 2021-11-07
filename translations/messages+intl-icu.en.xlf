@@ -169,13 +169,13 @@
                 <source>action.sign_in</source>
                 <target>Sign in</target>
             </trans-unit>
-            <trans-unit id="action.browse_app">
-                <source>action.browse_app</source>
-                <target>Browse application</target>
+            <trans-unit id="action.manage_users">
+                <source>action.manage_users</source>
+                <target>Manage users</target>
             </trans-unit>
-            <trans-unit id="action.browse_admin">
-                <source>action.browse_admin</source>
-                <target>Browse backend</target>
+            <trans-unit id="action.manage_lab">
+                <source>action.manage_lab</source>
+                <target>Manage laboratory</target>
             </trans-unit>
             <trans-unit id="action.edit_user">
                 <source>action.edit_user</source>
@@ -304,7 +304,7 @@
             </trans-unit>
             <trans-unit id="menu.admin">
                 <source>menu.admin</source>
-                <target>Backend</target>
+                <target>Administrator panel</target>
             </trans-unit>
             <trans-unit id="menu.user">
                 <source>menu.user</source>
@@ -386,13 +386,13 @@
                 <source>help.show_code</source>
                 <target><![CDATA[Click on this button to show the source code of the <strong>Controller</strong> and <strong>template</strong> used to render this page.]]></target>
             </trans-unit>
-            <trans-unit id="help.browse_app">
-                <source>help.browse_app</source>
-                <target><![CDATA[Browse the <strong>public section</strong> of the demo application.]]></target>
+            <trans-unit id="help.manage_users">
+                <source>help.manage_users</source>
+                <target><![CDATA[Add/remove users </br> ( students )]]></target>
             </trans-unit>
-            <trans-unit id="help.browse_admin">
-                <source>help.browse_admin</source>
-                <target><![CDATA[Browse the <strong>admin backend</strong> of the demo application.]]></target>
+            <trans-unit id="help.manage_lab">
+                <source>help.manage_lab</source>
+                <target><![CDATA[Add/remove/edit loans and </br> lab accessories]]></target>
             </trans-unit>
             <trans-unit id="help.login_users">
                 <source>help.login_users</source>

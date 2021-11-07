@@ -127,13 +127,13 @@
                 <source>action.sign_in</source>
                 <target>Zaloguj się</target>
             </trans-unit>
-            <trans-unit id="action.browse_app">
-                <source>action.browse_app</source>
-                <target>Przeglądaj aplikację</target>
+            <trans-unit id="action.manage_users">
+                <source>action.manage_users</source>
+                <target>Zarządzaj użytkownikami</target>
             </trans-unit>
-            <trans-unit id="action.browse_admin">
-                <source>action.browse_admin</source>
-                <target>Przeglądaj panel administracyjny</target>
+            <trans-unit id="action.manage_lab">
+                <source>action.manage_lab</source>
+                <target>Zarządzanie laboratorium</target>
             </trans-unit>
             <trans-unit id="action.edit_user">
                 <source>action.edit_user</source>
@@ -330,13 +330,13 @@
                 <source>help.show_code</source>
                 <target><![CDATA[Kliknij poniższy przycisk, aby zobaczyć kod <strong>kontrolera</strong> oraz <strong>szablonu</strong> użytych podczas generowania tej podstrony.]]></target>
             </trans-unit>
-            <trans-unit id="help.browse_app">
-                <source>help.browse_app</source>
-                <target><![CDATA[Przeglądaj <strong>publiczną część</strong> aplikacji demonstracyjnej.]]></target>
+            <trans-unit id="help.manage_users">
+                <source>help.manage_users</source>
+                <target><![CDATA[Dodawanie/usuwanie użytkowników </br> ( studentów )]]></target>
             </trans-unit>
-            <trans-unit id="help.browse_admin">
-                <source>help.browse_admin</source>
-                <target><![CDATA[Przeglądaj <strong>panel administracyjny</strong> aplikacji demonstracyjnej.]]></target>
+            <trans-unit id="help.manage_lab">
+                <source>help.manage_lab</source>
+                <target><![CDATA[Doadawanie/edytowanie/usuwanie wypożyczeń oraz sprzędu laboratoryjnego]]></target>
             </trans-unit>
             <trans-unit id="help.login_users">
                 <source>help.login_users</source>
