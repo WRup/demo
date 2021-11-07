@@ -23,6 +23,32 @@ class AccessoryController extends AbstractController
 
     /**
      * @Route("/", defaults={"page": "1", "_format"="html"}, methods="GET", name="lab_index")
+     * @Cache(smaxage="10")
+     *
+     * NOTE: For standard formats, Symfony will also automatically choose the best
+     * Content-Type header for the response.
+     * See https://symfony.com/doc/current/routing.html#special-parameters
+     */
+    public function home(Request $request, AccessoryRepository $accessories, TagRepository $tags): Response
+    {
+        $tag = null;
+        if ($request->query->has('tag')) {
+            $tag = $tags->findOneBy(['name' => $request->query->get('tag')]);
+        }
+        $latestAccessories = $accessories->findLatest(1, $tag);
+
+        // Every template name also has two extensions that specify the format and
+        // engine for that template.
+        // See https://symfony.com/doc/current/templates.html#template-naming
+        return $this->render('lab/index.html.twig', [
+            'paginator' => $latestAccessories,
+            'tagName' => $tag ? $tag->getName() : null,
+        ]);
+    }
+
+
+    /**
+     * @Route("/", defaults={"page": "1", "_format"="html"}, methods="GET", name="lab_index")
      * @Route("/rss.xml", defaults={"page": "1", "_format"="xml"}, methods="GET", name="lab_rss")
      * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods="GET", name="lab_index_paginated")
      * @Cache(smaxage="10")
