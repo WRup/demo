@@ -9,6 +9,8 @@ use App\Form\AccessoryType;
 use App\Repository\AccessoryRepository;
 use App\Repository\LoanRepository;
 use App\Repository\UserRepository;
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Configuration\Configuration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -263,6 +265,15 @@ class AccessoryController extends AbstractController
      */
     public function updateAccessoryImage(FormInterface $form, SluggerInterface $slugger, Accessory $accessory): void
     {
+
+        $configuration = Configuration::instance([
+            'cloud' => [
+                'cloud_name' => 'hqwd9g4fm',
+                'api_key' => '681635366864125',
+                'api_secret' => 'viIa6fCIy_xeVid0XnFOnYy0k3A'],
+            'url' => ['secure' => true]]);
+
+
         $imageFile = $form->get('imageFile')->getData();
 
         if ($imageFile) {
@@ -278,8 +289,8 @@ class AccessoryController extends AbstractController
             } catch (FileException $e) {
                 // ... handle exception if something happens during file upload
             }
-
-            $accessory->setImage($newFilename);
+            $urlToFile = (new UploadApi($configuration))->upload($this->getParameter('images') .'/'. $newFilename)['url'];
+            $accessory->setImage($urlToFile);
         }
     }
 }
