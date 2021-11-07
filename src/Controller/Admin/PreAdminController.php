@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class HomeController extends AbstractController
+class PreAdminController extends AbstractController
 {
 
     /**
@@ -38,7 +38,7 @@ class HomeController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('default/homepage.html.twig');
+        return $this->render('admin/homepage.html.twig');
     }
 
 }

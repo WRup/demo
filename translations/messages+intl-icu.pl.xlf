@@ -39,6 +39,10 @@
                 <source>title.login</source>
                 <target>Bezpieczne logowanie</target>
             </trans-unit>
+            <trans-unit id="title.user_list">
+                <source>title.user_list</source>
+                <target>Lista studentów</target>
+            </trans-unit>
             <trans-unit id="title.accessory_list">
                 <source>title.accessory_list</source>
                 <target>Wyposażenie laboratorium</target>

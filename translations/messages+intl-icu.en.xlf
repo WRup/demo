@@ -76,6 +76,10 @@
                 <source>title.login</source>
                 <target>Secure Sign in</target>
             </trans-unit>
+            <trans-unit id="title.user_list">
+                <source>title.user_list</source>
+                <target>Students</target>
+            </trans-unit>
             <trans-unit id="title.accessory_list">
                 <source>title.accessory_list</source>
                 <target>Lab Inventory</target>
