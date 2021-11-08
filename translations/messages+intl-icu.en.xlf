@@ -352,7 +352,7 @@
 
             <trans-unit id="help.quantity">
                 <source>help.quantity</source>
-                <target>Amount of accessories loaned by students:</target>
+                <target>Amount of accessories loaned by students: {amountOfLoans, number}</target>
             </trans-unit>
             <trans-unit id="help.tags">
                 <source>help.tags</source>

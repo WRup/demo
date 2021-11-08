@@ -44,7 +44,6 @@ class Accessory
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Assert\NotBlank(message="post.blank_summary")
      * @Assert\Length(max=255)
      */
     private $model;
@@ -69,8 +68,8 @@ class Accessory
      * @var string
      *
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="post.blank_content")
-     * @Assert\Length(min=10, minMessage="post.too_short_content")
+     * @Assert\NotBlank(message="accessory.blank_content")
+     * @Assert\Length(min=10, minMessage="accessory.too_short_content")
      */
     private $content;
 
@@ -100,7 +99,7 @@ class Accessory
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
      * @ORM\JoinTable(name="accessory_tag")
      * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="post.too_many_tags")
+     * @Assert\Count(max="4", maxMessage="accessory.too_many_tags")
      */
     private $tags;
 
@@ -182,7 +181,7 @@ class Accessory
     /**
      * @return string
      */
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
