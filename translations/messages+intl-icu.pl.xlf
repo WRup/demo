@@ -236,6 +236,10 @@
                 <source>menu.choose_language</source>
                 <target>Wybór języka</target>
             </trans-unit>
+            <trans-unit id="menu.user_list">
+                <source>menu.user_list</source>
+                <target>Lista studentów</target>
+            </trans-unit>
             <trans-unit id="menu.accessory_list">
                 <source>menu.accessory_list</source>
                 <target>Lista przyrządów</target>

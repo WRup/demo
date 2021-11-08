@@ -274,6 +274,10 @@
                 <source>menu.choose_language</source>
                 <target>Choose language</target>
             </trans-unit>
+            <trans-unit id="menu.user_list">
+                <source>menu.user_list</source>
+                <target>Students list</target>
+            </trans-unit>
             <trans-unit id="menu.accessory_list">
                 <source>menu.accessory_list</source>
                 <target>Accessory list</target>
@@ -348,7 +352,7 @@
 
             <trans-unit id="help.quantity">
                 <source>help.quantity</source>
-                <target>Amount of accessories loaned by students:</target>
+                <target>Amount of accessories loaned by students: {amountOfLoans, number}</target>
             </trans-unit>
             <trans-unit id="help.tags">
                 <source>help.tags</source>

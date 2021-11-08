@@ -98,7 +98,7 @@ class Accessory
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist"})
      * @ORM\JoinTable(name="accessory_tag")
      * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="post.too_many_tags")
+     * @Assert\Count(max="4", maxMessage="accessory.too_many_tags")
      */
     private $tags;
 
@@ -180,7 +180,7 @@ class Accessory
     /**
      * @return string
      */
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
